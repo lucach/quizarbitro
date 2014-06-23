@@ -58,7 +58,7 @@ class HomeController extends BaseController
             'mail' => array(
                 'required',
                 'email',
-                'unique:users'
+                'unique:qa_users'
             ) ,
             'password' => array(
                 'required',

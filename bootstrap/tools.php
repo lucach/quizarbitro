@@ -1,10 +1,5 @@
 <?php
 
-$BASE_URL = $_SERVER['SERVER_NAME'];
-
-if ($_SERVER['SERVER_PORT'] != 80)
-	$BASE_URL .= $_SERVER['SERVER_PORT'];
-
 $related_id = array(
 	1 => array(2,),
 	2 => array(1,),
