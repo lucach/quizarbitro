@@ -53,8 +53,8 @@
 	<div class="row top-buffer">
         <div class="row">
 	        <div id="begindiv">
-		        <button style="float:left; width:30%; margin-left:15%" type="button" id="beginquiz" class="btn btn-primary btn-large btn-block" onclick=location.href="{{url('/')}}/newquiz/0">Nuovo quiz (facile)</button>
-		        <button style="width:30%; margin-left:55%"type="button" id="beginquiz" class="btn btn-primary btn-large btn-block" onclick=location.href="{{url('/')}}/newquiz/1">Nuovo quiz (difficile)</button> <br>
+		        <button style="float:left; width:30%; margin-left:15%" type="button" id="beginquiz" class="btn btn-primary btn-large btn-block" onclick="newQuiz(0)">Nuovo quiz (facile)</button>
+		        <button style="width:30%; margin-left:55%"type="button" id="beginquiz" class="btn btn-primary btn-large btn-block" onclick="newQuiz(1)">Nuovo quiz (difficile)</button> <br>
 	        </div>
         </div>
         <div id="footer">
