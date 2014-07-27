@@ -4,7 +4,7 @@ Una piattaforma per mettere alla prova la tua conoscenza delle regole del gioco 
 
 ## Sito Web
 
-[![Link alla piattaforma](http://quizarbitro.chiodini.org/)
+http://quizarbitro.chiodini.org/
 
 ### License
 
