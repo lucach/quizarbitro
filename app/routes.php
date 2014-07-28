@@ -16,13 +16,6 @@ Route::pattern('id', '[0-9]+');
  * Need to think about it...
  */
 
-Route::get('quiz/{id}', array('before' => 'auth', function($id)
-{
-	$all_questions = json_decode(Session::get('questions'));
-	$question = $all_questions[$id][0]->question;
-	return View::make('questions')->with('question_text', $question);
-}));
-
 Route::get('quiz/{id}/text', array('before' => 'auth', function($id)
 {
 	$all_questions = json_decode(Session::get('questions'));
@@ -106,8 +99,10 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
 	Session::put('questions', json_encode($questions));
 	Session::put('answers', json_encode($answers));
 
-	// Redirect to first question
-	return Redirect::to('quiz/0');
+	// Display the first question
+	$question = $questions[0][0]->question;
+	return View::make('questions')->with('question_text', $question);
+
 }));
 
 // route to process the form
