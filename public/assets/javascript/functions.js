@@ -1,12 +1,3 @@
-var BASE_URL = window.location.origin;
-
-function newQuiz(difficulty)
-{
-	localStorage.clear();
-	localStorage.setItem("answers", "2222222222222222222222222");
-	location.href = BASE_URL + "/newquiz/" + difficulty;
-}
-
 function showNotification(chosen_type,msg)
 {
 	$.bootstrapGrowl(msg, {

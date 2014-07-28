@@ -40,9 +40,9 @@
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nuovo quiz <b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="#" onclick="newQuiz(0)">Quiz facile</a></li>
+                    <li><a href="{{ url('/') }}/newquiz/0">Quiz facile</a></li>
                     <li class="divider"></li>
-                    <li><a href="#" onclick="newQuiz(1)">Quiz difficile</a></li>                
+                    <li><a href="{{ url('/') }}/newquiz/1">Quiz difficile</a></li>
                   </ul>
                 </li>
               </ul>

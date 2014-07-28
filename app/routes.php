@@ -32,6 +32,16 @@ Route::get('quiz/{id}/text', array('before' => 'auth', function($id)
 	return json_encode(array($question, $answer));
 }));
 
+Route::get('quiz/all', array('before' => 'auth', function()
+{
+	$all_questions = json_decode(Session::get('questions'));
+	$questions_text = array();
+	foreach ($all_questions as $question) {
+		$questions_text[] = $question[0]->question;
+	}
+	return json_encode($questions_text);
+}));
+
 Route::post('quiz/{id}', array('before' => 'auth', function($id)
 {
 	$answers = json_decode(Session::get('answers'));
