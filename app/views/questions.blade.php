@@ -152,6 +152,7 @@ quizArbitro = function(){
 		goToId:goToId,
 		goNext:goNext,
 		goBack:goBack,
+		endQuiz:endQuiz,
 		init:init
 	}
 
