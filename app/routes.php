@@ -10,21 +10,6 @@ Route::get('/', function()
 
 Route::pattern('id', '[0-9]+');
 
-/** 
- * TODO BADLY: Need to rethink the whole way we're handling the answers.
- * We really CANNOT spend all the time doing json (en/de)coding stuff.
- * Need to think about it...
- */
-
-Route::get('quiz/{id}/text', array('before' => 'auth', function($id)
-{
-	$all_questions = json_decode(Session::get('questions'));
-	$all_answers = json_decode(Session::get('answers'));
-	$answer = $all_answers[$id];
-	$question = $all_questions[$id][0]->question;
-	return json_encode(array($question, $answer));
-}));
-
 Route::get('quiz/all', array('before' => 'auth', function()
 {
 	$all_questions = json_decode(Session::get('questions'));
@@ -37,6 +22,13 @@ Route::get('quiz/all', array('before' => 'auth', function()
 
 Route::post('quiz/{id}', array('before' => 'auth', function($id)
 {
+	/** TODO This can be really a CPU-intensive task
+	 *	- reads a file
+	 *	- decodes JSON
+	 *	- encodes JSON
+	 *	- writes a file
+	 *	A better approach may be good.
+	 */
 	$answers = json_decode(Session::get('answers'));
 	$answers[$id] = Input::get('answer');
 	Session::put('answers', json_encode($answers));
