@@ -69,7 +69,7 @@ quizArbitro = function(){
 		else
 		{	$("#nextButton").html(">");
 			$("#nextButton").removeClass("btn-primary");
-			$("#nextButton").attr("onclick", "quizArbitro.next(1)");
+            $("#nextButton").attr("onclick", "quizArbitro.goNext()");
 		}
 
 		quizArbitro.currentQuestion = id;
