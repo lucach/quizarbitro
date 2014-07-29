@@ -8,23 +8,23 @@
 {{ Form::open(array('class' => 'form-horizontal', 'style' => 'margin-top:10%', 'url' => 'registration')) }}
 
    <div class="form-group" id="form-name">             
-	<label class="col-lg-2 control-label">Nome</label>
-	<div class="col-lg-4">
+    <label class="col-lg-2 control-label">Nome</label>
+    <div class="col-lg-4">
         {{ Form::text('name', Input::old('name'), array('placeholder' => 'Nome', 'class' => 'form-control')) }}
-	</div>
+    </div>
 </div>
 
   <div class="form-group" id="form-email">             
-	<label class="col-lg-2 control-label">Email</label>
-	<div class="col-lg-4">
+    <label class="col-lg-2 control-label">Email</label>
+    <div class="col-lg-4">
         {{ Form::text('mail', Input::old('mail'), array('placeholder' => 'Email', 'class' => 'form-control')) }}
-	</div>
+    </div>
 </div>
 <div class="form-group" id="form-password">             
-	<label class="col-lg-2 control-label">Password</label>
-	<div class="col-lg-4">
-    	{{ Form::password('password', array('placeholder' => 'Password', 'class' => 'form-control')) }}
-	</div>
+    <label class="col-lg-2 control-label">Password</label>
+    <div class="col-lg-4">
+        {{ Form::password('password', array('placeholder' => 'Password', 'class' => 'form-control')) }}
+    </div>
 </div>
 
  

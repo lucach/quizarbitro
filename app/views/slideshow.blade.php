@@ -26,7 +26,7 @@
         <!--[if lt IE 9]>
           <script src="../assets/js/html5shiv.js"></script>
         <![endif]-->
-	</head>
+    </head>
         <style type="text/css">
             #child {
                 position: absolute;

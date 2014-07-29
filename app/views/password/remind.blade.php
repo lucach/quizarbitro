@@ -8,10 +8,10 @@
 {{ Form::open(array('class' => 'form-horizontal', 'style' => 'margin-top:10%', 'route' => 'password.request')) }}
  
   <div class="form-group" id="form-password">             
-	<label class="col-lg-2 control-label">Email</label>
-	<div class="col-lg-4">
+    <label class="col-lg-2 control-label">Email</label>
+    <div class="col-lg-4">
         {{ Form::text('mail', Input::old('mail'), array('placeholder' => 'Email', 'class' => 'form-control')) }}
-	</div>
+    </div>
 </div>
  
 <div class="form-group" id="form-submit"><div class="col-lg-4 col-lg-offset-2">
