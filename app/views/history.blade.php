@@ -1,8 +1,6 @@
 @extends('layout')
 @section('assets')
 <script type="text/javascript" src="{{asset('assets/javascript/jquery.tablesorter.min.js')}}"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/flot/0.8.2/jquery.flot.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/flot/0.8.2/jquery.flot.time.min.js"></script>
 
     <script type="text/javascript">
 
@@ -20,64 +18,9 @@
         });
     }
 
-    $(document).ready(function() 
-    { 
+    $(function() {
+        showHistoryChart();
         $("#table-hist").tablesorter(); 
-    }); 
-
-      var arrMonthNames = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"]
-
-    function showTooltip(x, y, contents) {
-        $('<div id="tooltip">' + contents + '</div>').css( {
-            position: 'absolute',
-            display: 'none',
-            top: y + 5,
-            left: x + 10,
-            border: '1px solid #fdd',
-            padding: '2px',
-            'background-color': '#fee',
-            opacity: 0.80
-        }).appendTo("body").fadeIn(200);
-    }
-
-    $(function () {
-        $.ajax({
-            type: "GET",
-            url: "{{url('/')}}" + "/history/json",
-            async: true,
-            success: function (data)
-            {
-                var val = JSON.parse(data);
-                $.plot("#placeholder", [val], {
-                    xaxis: { mode: "time", timezone: "browser",
-                             timeformat: "%e %b %y",
-                             monthNames: arrMonthNames },
-                    lines: { show: true },
-                    points: { show: true },
-                    grid: { hoverable: true, clickable: true }
-                }
-                );
-                var previousPoint = null;
-                $("#placeholder").bind("plothover", function (event, pos, item) {
-                        if (item) {
-                            if (previousPoint != item.dataIndex) {
-                                previousPoint = item.dataIndex;
-                                $("#tooltip").remove();
-                                var x = item.datapoint[0],
-                                    y = item.datapoint[1];
-                                var date = new Date(x);
-                                var d = date.getDate(), m = date.getMonth()+1, yy = date.getYear()+1900;
-                                showTooltip(item.pageX, item.pageY, d + "/" + m + "/" + yy + ": " + y);
-                            }
-                        }
-                        else {
-                            $("#tooltip").remove();
-                            previousPoint = null;            
-                        }
-                });
-
-            }
-        });
     });
 
     </script>
@@ -97,7 +40,7 @@
         @if ($num == 0)
             <p class="center">Nessun quiz svolto finora. Iniziane subito uno!</p>
         @else
-        <div id="placeholder" style="width:100%;height:300px;margin-bottom:5%">
+        <div id="chartPlaceholder" style="width:100%;height:300px;margin-bottom:5%">
             <p class="text-center"><i>Caricamento del grafico in corso...</i></p>            
         </div>
 

@@ -1,3 +1,5 @@
+var BASE_URL = window.location.origin;
+
 function showNotification(chosen_type,msg)
 {
 	$.bootstrapGrowl(msg, {
@@ -77,4 +79,62 @@ function getDescriptionByLawID(law)
 		return null;
 	else
 		return descriptions[law];
+}
+
+var arrMonthNames = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"]
+
+
+function showTooltip(x, y, contents) {
+    $('<div id="tooltip">' + contents + '</div>').css( {
+        position: 'absolute',
+        display: 'none',
+        top: y + 5,
+        left: x + 10,
+        border: '1px solid #fdd',
+        padding: '2px',
+        'background-color': '#fee',
+        opacity: 0.80
+    }).appendTo("body").fadeIn(200);
+}
+
+
+function showHistoryChart()
+{
+    $.ajax({
+        type: "GET",
+        url: BASE_URL + "/history/json",
+        async: true,
+        success: function (data)
+        {
+            var val = JSON.parse(data);
+            $.plot("#chartPlaceholder", [val], {
+                xaxis: { mode: "time", timezone: "browser",
+                         timeformat: "%e %b %y",
+                         monthNames: arrMonthNames },
+                lines: { show: true },
+                points: { show: true },
+                grid: { hoverable: true, clickable: true }
+            }
+            );
+            var previousPoint = null;
+            $("#chartPlaceholder").bind("plothover", function (event, pos, item) {
+                    if (item) {
+                        if (previousPoint != item.dataIndex) {
+                            previousPoint = item.dataIndex;
+                            $("#tooltip").remove();
+                            var x = item.datapoint[0],
+                                y = item.datapoint[1];
+                            var date = new Date(x);
+                            var d = date.getDate(), m = date.getMonth()+1, yy = date.getYear()+1900;
+                            showTooltip(item.pageX, item.pageY, d + "/" + m + "/" + yy + ": " + y);
+                        }
+                    }
+                    else {
+                        $("#tooltip").remove();
+                        previousPoint = null;            
+                    }
+            });
+
+        }
+    });
 }
