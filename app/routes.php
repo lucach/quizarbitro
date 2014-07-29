@@ -14,8 +14,9 @@ Route::get('quiz/all', array('before' => 'auth', function()
 {
 	$all_questions = json_decode(Session::get('questions'));
 	$questions_text = array();
-	foreach ($all_questions as $question) {
-		$questions_text[] = $question[0]->question;
+	foreach ($all_questions as $index => $question) {
+		$questions_text[$index]["question"] = $question[0]->question;
+		$questions_text[$index]["law"] = $question[0]->law;
 	}
 	return json_encode($questions_text);
 }));
@@ -37,7 +38,6 @@ Route::post('quiz/{id}', array('before' => 'auth', function($id)
 /* Stores in PHP session the questions for the current quiz with
 requested difficulty (default easy). */
 Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficulty = 0) {
-
 
 	// The following is, as agreed, the way we choose which questions
 	// should appear in a quiz.
@@ -70,7 +70,7 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
 	Session::forget('questions');
 	$questions = array();
 	$answers = array_fill(0, 25, -1);
-	$id_to_be_avoided = array(-1); // Dummy ID to work with the first query;
+	$id_to_be_avoided = array(-1); // dummy ID to make it working with the first query
 	for ($i = 0; $i < 25; $i++)
 	{
 		$question = Question::orderBy(DB::raw('RAND()'))
@@ -92,17 +92,15 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
 	Session::put('answers', json_encode($answers));
 
 	// Display the first question
-	$question = $questions[0][0]->question;
-	return View::make('questions')->with('question_text', $question);
+	return View::make('questions')
+		->with('question_text', $questions[0][0]->question)
+		->with('question_law', $questions[0][0]->law);
 
 }));
 
-// route to process the form
 Route::post('login', array('uses' => 'HomeController@doLogin'));
 
 Route::get('logout', array('uses' => 'HomeController@doLogout'));
-
-// routes to handle the whole system
 
 Route::get('home', array('before' => 'auth', function()
 {

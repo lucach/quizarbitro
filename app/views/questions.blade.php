@@ -11,12 +11,16 @@ quizArbitro = function(){
 		quizArbitro.currentQuestion = 0;
 		quizArbitro.answers = "2222222222222222222222222";
 		quizArbitro.lastIntervalID = null;
-		// Retrieve all questions text
-		$.ajax({ 
-			url: '{{ url('/') }}' + '/quiz/all',
-			success: function(result) {
-				quizArbitro.questions = $.parseJSON(result);
-			}
+		$(function() { // wait until the page is ready
+			$("#question_law").html(getDescriptionByLawID($("#question_law").html()));
+			quizArbitro.showProgress();
+			// Retrieve all questions text
+			$.ajax({
+				url: '{{ url('/') }}' + '/quiz/all',
+				success: function(result) {
+					quizArbitro.questions = $.parseJSON(result);
+				}
+			});
 		});
 	}
 
@@ -26,7 +30,8 @@ quizArbitro = function(){
 		$("#nextButton").prop('disabled', true);
 
 		$("#current_question_string").html("Domanda corrente: " + parseInt(id+1) + " / 25");
-		$("#question_text").html(quizArbitro.questions[id]);
+		$("#question_law").html(getDescriptionByLawID(quizArbitro.questions[id].law));
+		$("#question_text").html(quizArbitro.questions[id].question);
 
 		var currentAnswer = quizArbitro.answers[id];
 
@@ -165,12 +170,16 @@ quizArbitro.init();
     <div class="container">
 
 		<div class="row top-buffer">
-			<div id="backButtonDiv" class="span2" style="float:left; margin-right: 3%">
-				<button class="btn btn-small" id="backButton" disabled="disabled" onClick="quizArbitro.goBack()">&lt;</button>
+			<div class="row">
+				<div id="backButtonDiv" class="col-md-2">
+					<button class="btn btn-small" id="backButton" disabled="disabled" onClick="quizArbitro.goBack()">&lt;</button>
+				</div>
+				<div id="question_law" class="col-md-8 text-center">{{ $question_law }}</div>
+				<div id="nextButtonDiv" class="col-md-2 text-right">
+					<button class="btn btn-small" id="nextButton" onClick="quizArbitro.goNext()">&gt;</button>
+				</div>
 			</div>
-			<div id="nextButtonDiv" class="span2 text-right"> 
-				<button class="btn btn-small" id="nextButton" onClick="quizArbitro.goNext()">></button> 
-			</div>
+			<hr>
 			<div class="span8 top-buffer">
 					<div id="question_text">{{ $question_text }}</div>
 			</div>
@@ -188,7 +197,4 @@ quizArbitro.init();
 		<div class="row top-buffer" id="progress_bar"> </div>
    </div>
 	
-<script type="text/javascript">
-quizArbitro.showProgress();
-</script>
 @stop

@@ -49,3 +49,32 @@ function filter(all)
 		$("#btn-filter").attr("onclick", "filter(0)");
 	}
 }
+
+function getDescriptionByLawID(law)
+{
+	var descriptions = [
+		"",
+		"Regola 1 - Il terreno di gioco",
+		"Regola 2 - Il pallone",
+		"Regola 3 - Il numero dei calciatori",
+		"Regola 4 - L'equipaggiamento dei calciatori",
+		"Regola 5 - L'arbitro",
+		"Regola 6 - Gli assistenti dell'arbitro",
+		"Regola 7 - La durata della gara",
+		"Regola 8 - L'inizio e la ripresa del gioco",
+		"Regola 9 - Il pallone in gioco e non in gioco",
+		"Regola 10 - La segnatura di una rete",
+		"Regola 11 - Il fuorigioco",
+		"Regola 12 - Falli e scorrettezze",
+		"Regola 13 - Calci di punizione",
+		"Regola 14 - Il calcio di rigore",
+		"Regola 15 - La rimessa dalla linea laterale",
+		"Regola 16 - Il calcio di rinvio",
+		"Regola 17 - Il calcio d'angolo",
+		"Procedure per determinare la squadra vincente di una gara"
+	];
+	if (law < 1 || law > 18)
+		return null;
+	else
+		return descriptions[law];
+}
