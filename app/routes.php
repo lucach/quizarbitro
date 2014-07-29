@@ -3,7 +3,7 @@
 Route::get('/', function()
 {
     if (Auth::check())
-        return View::make('home');
+        return Redirect::route('home');
     else
         return View::make('slideshow');
 });
@@ -102,7 +102,7 @@ Route::post('login', array('uses' => 'HomeController@doLogin'));
 
 Route::get('logout', array('uses' => 'HomeController@doLogout'));
 
-Route::get('home', array('before' => 'auth', function()
+Route::get('home', array('before' => 'auth', 'as' => 'home', function()
 {
 	$last_quiz = History::where('userId', Auth::user()->id)
                     ->where('created_at', History::where('userId', Auth::user()->id)
