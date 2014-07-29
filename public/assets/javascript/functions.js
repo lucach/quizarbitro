@@ -108,8 +108,7 @@ function showHistoryChart()
         {
             var val = JSON.parse(data);
             if (val.length == 0)
-                $("#chartPlaceholder").html("<p class='text-center'><i>Nessun quiz svolto finora.
-                    Grafico non mostrato</i></p>");
+                $("#chartPlaceholder").html("<p class='text-center'><i>Nessun quiz svolto finora. Grafico non mostrato</i></p>");
             else
             {
                 $.plot("#chartPlaceholder", [val], {
