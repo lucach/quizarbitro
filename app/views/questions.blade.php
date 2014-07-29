@@ -29,6 +29,9 @@ quizArbitro = function(){
 		$("#backButton").prop('disabled', true);
 		$("#nextButton").prop('disabled', true);
 
+		$("#btn-true").blur();
+		$("#btn-false").blur();
+
 		$("#current_question_string").html("Domanda corrente: " + parseInt(id+1) + " / 25");
 		$("#question_law").html(getDescriptionByLawID(quizArbitro.questions[id].law));
 		$("#question_text").html(quizArbitro.questions[id].question);
