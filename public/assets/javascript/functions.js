@@ -100,41 +100,45 @@ function showTooltip(x, y, contents) {
 
 function showHistoryChart()
 {
-    $.ajax({
+	$.ajax({
         type: "GET",
         url: BASE_URL + "/history/json",
         async: true,
         success: function (data)
         {
             var val = JSON.parse(data);
-            $.plot("#chartPlaceholder", [val], {
-                xaxis: { mode: "time", timezone: "browser",
-                         timeformat: "%e %b %y",
-                         monthNames: arrMonthNames },
-                lines: { show: true },
-                points: { show: true },
-                grid: { hoverable: true, clickable: true }
+            if (val.length == 0)
+                $("#chartPlaceholder").html("<p class='text-center'><i>Nessun quiz svolto finora.
+                    Grafico non mostrato</i></p>");
+            else
+            {
+                $.plot("#chartPlaceholder", [val], {
+	                xaxis: { mode: "time", timezone: "browser",
+	                         timeformat: "%e %b %y",
+	                         monthNames: arrMonthNames },
+	                lines: { show: true },
+	                points: { show: true },
+	                grid: { hoverable: true, clickable: true }
+	            });
+	            var previousPoint = null;
+	            $("#chartPlaceholder").bind("plothover", function (event, pos, item) {
+	                    if (item) {
+	                        if (previousPoint != item.dataIndex) {
+	                            previousPoint = item.dataIndex;
+	                            $("#tooltip").remove();
+	                            var x = item.datapoint[0],
+	                                y = item.datapoint[1];
+	                            var date = new Date(x);
+	                            var d = date.getDate(), m = date.getMonth()+1, yy = date.getYear()+1900;
+	                            showTooltip(item.pageX, item.pageY, d + "/" + m + "/" + yy + ": " + y);
+	                        }
+	                    }
+	                    else {
+	                        $("#tooltip").remove();
+	                        previousPoint = null;
+	                    }
+	            });
             }
-            );
-            var previousPoint = null;
-            $("#chartPlaceholder").bind("plothover", function (event, pos, item) {
-                    if (item) {
-                        if (previousPoint != item.dataIndex) {
-                            previousPoint = item.dataIndex;
-                            $("#tooltip").remove();
-                            var x = item.datapoint[0],
-                                y = item.datapoint[1];
-                            var date = new Date(x);
-                            var d = date.getDate(), m = date.getMonth()+1, yy = date.getYear()+1900;
-                            showTooltip(item.pageX, item.pageY, d + "/" + m + "/" + yy + ": " + y);
-                        }
-                    }
-                    else {
-                        $("#tooltip").remove();
-                        previousPoint = null;            
-                    }
-            });
-
         }
     });
 }
