@@ -8,7 +8,9 @@ Route::get('/', function()
         return View::make('slideshow');
 });
 
+
 Route::pattern('id', '[0-9]+');
+
 
 Route::get('quiz/all', array('before' => 'auth', function()
 {
@@ -20,6 +22,7 @@ Route::get('quiz/all', array('before' => 'auth', function()
     }
     return json_encode($questions_text);
 }));
+
 
 Route::post('quiz/{id}', array('before' => 'auth', function($id)
 {
@@ -34,6 +37,7 @@ Route::post('quiz/{id}', array('before' => 'auth', function($id)
     $answers[$id] = Input::get('answer');
     Session::put('answers', json_encode($answers));
 }));
+
 
 /* Stores in PHP session the questions for the current quiz with
 requested difficulty (default easy). */
@@ -99,9 +103,12 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
 
 }));
 
+
 Route::post('login', array('uses' => 'HomeController@doLogin'));
 
+
 Route::get('logout', array('uses' => 'HomeController@doLogout'));
+
 
 Route::get('home', array('before' => 'auth', 'as' => 'home', function()
 {
@@ -113,6 +120,7 @@ Route::get('home', array('before' => 'auth', 'as' => 'home', function()
     return View::make('home')->with('last_quiz_datetime', 
         (count($last_quiz) > 0) ? $last_quiz[0]->created_at : "");
 })); 
+
 
 Route::get('end', array('before' => 'auth', function()
 {
@@ -145,7 +153,25 @@ Route::get('end', array('before' => 'auth', function()
                 else
                     $outcome_str = "Molto male! In queste condizioni non puoi arbitrare nemmeno i pulcini! Studia il Regolamento!";
 
-    Session::put('points', $points);
+    // Update user table
+    $total_score = (Auth::user()->average_score * Auth::user()->tests_done) + (int)$points;
+    Auth::user()->average_score = $total_score / (Auth::user()->tests_done + 1);
+    Auth::user()->increment('tests_done');
+    Auth::user()->save();
+
+    // Save the quiz in history table
+    $row = new History;
+    $row->userId = Auth::user()->id;
+    $row->points = $points;
+    $row->answers = Session::get('answers');
+    $row->difficulty = Session::get('difficulty');
+    $id = array();
+    $questions = $all_questions;
+    foreach ($questions as $question) {
+        array_push($id, $question[0]->_id);
+    }
+    $row->questions = json_encode($id);
+    $row->save();
 
     return View::make('end')
                 ->with('points', $points)
@@ -155,30 +181,6 @@ Route::get('end', array('before' => 'auth', function()
                 ->with('answers', $all_answers);
 }));
 
-Route::get('savequiz', array('before' => 'auth', function()
-{
-    // TODO We're not checking errors at all... Mind to update AJAX accordingly.
-
-    // Update user table
-    $total_score = (Auth::user()->average_score * Auth::user()->tests_done) + (int)Session::get('points');
-    Auth::user()->average_score = $total_score / (Auth::user()->tests_done + 1);
-    Auth::user()->increment('tests_done');
-    Auth::user()->save();
-
-    // Add a new row to history
-    $row = new History;
-    $row->userId = Auth::user()->id;
-    $row->points = Session::get('points');
-    $row->answers = Session::get('answers');
-    $row->difficulty = Session::get('difficulty');
-    $id = array();
-    $questions = json_decode(Session::get('questions'));
-    foreach ($questions as $question) {
-        array_push($id, $question[0]->_id);
-    }
-    $row->questions = json_encode($id);
-    $row->save();
-}));
 
 Route::get('profile', array('before' => 'auth', function()
 {
@@ -186,6 +188,7 @@ Route::get('profile', array('before' => 'auth', function()
         ->with('mail', Auth::user()->mail)
         ->with('name', Auth::user()->name);
 }));
+
 
 Route::get('history', array('before' => 'auth', function()
 {
@@ -196,6 +199,7 @@ Route::get('history', array('before' => 'auth', function()
         ->with('num', $num)
         ->with('rows', $rows);
 }));
+
 
 Route::post('result', array('before' => 'auth', function()
 {
@@ -222,6 +226,7 @@ Route::post('result', array('before' => 'auth', function()
                     ->with('results', $all_results);
 }));
 
+
 Route::get('history/json', array('before' => 'auth', function()
 {
     $rows = History::where('userId', Auth::user()->id)
@@ -240,6 +245,7 @@ Route::get('history/json', array('before' => 'auth', function()
 
 }));
 
+
 Route::get('password/reset', array( function()
 {
     if (Auth::check()) // do not ask the mail if the user is logged in (i.e. he wants to change his password)
@@ -248,24 +254,29 @@ Route::get('password/reset', array( function()
         return App::make('PasswordController')->remind();
 }));
 
+
 Route::post('password/reset', array(
   'uses' => 'PasswordController@request',
   'as' => 'password.request'
 ));
+
 
 Route::get('password/reset/{token}', array(
   'uses' => 'PasswordController@reset',
   'as' => 'password.reset'
 ));
 
+
 Route::post('password/reset/{token}', array(
   'uses' => 'PasswordController@update',
   'as' => 'password.update'
 ));
 
+
 Route::get('registration', function()
 {
     return View::make('registration');
 });
+
 
 Route::post('registration', array('uses' => 'HomeController@newUser'));
