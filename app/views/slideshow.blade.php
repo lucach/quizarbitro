@@ -15,10 +15,10 @@
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.1.1/jquery.qtip.min.js"></script>
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="assets/javascript/jquery.mousewheel.js"></script>
-        <script type="text/javascript" src="assets/javascript/jquery.event.move.js"></script>
-        <script type="text/javascript" src="assets/javascript/jquery.event.swipe.js"></script>
-        <script type="text/javascript" src="assets/javascript/jquery.snappish.js"></script>
+        <script type="text/javascript" src="assets/javascript/jquery.mousewheel.min.js"></script>
+        <script type="text/javascript" src="assets/javascript/jquery.event.move.min.js"></script>
+        <script type="text/javascript" src="assets/javascript/jquery.event.swipe.min.js"></script>
+        <script type="text/javascript" src="assets/javascript/jquery.snappish.min.js"></script>
         <script type="text/javascript" src="assets/javascript/jquery.bootstrap-growl.min.js"></script>        
         <script type="text/javascript" src="assets/javascript/functions.js"></script>
 

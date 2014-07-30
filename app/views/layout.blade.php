@@ -16,11 +16,8 @@
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/flot/0.8.2/jquery.flot.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/flot/0.8.2/jquery.flot.time.min.js"></script>
-        <script type="text/javascript" src="{{ asset('assets/javascript/moment.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('assets/javascript/jquery.mousewheel.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('assets/javascript/jquery.event.move.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('assets/javascript/jquery.event.swipe.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('assets/javascript/jquery.snappish.js') }}"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/lang/it.min.js"></script>
         <script type="text/javascript" src="{{ asset('assets/javascript/jquery.bootstrap-growl.min.js') }}"></script>        
         <script type="text/javascript" src="{{ asset('assets/javascript/functions.js') }}"></script>
         @yield('assets')
