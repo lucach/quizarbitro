@@ -90,6 +90,7 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
     }
     Session::put('questions', json_encode($questions));
     Session::put('answers', json_encode($answers));
+    Session::put('difficulty', $difficulty);
 
     // Display the first question
     return View::make('questions')
@@ -169,6 +170,7 @@ Route::get('savequiz', array('before' => 'auth', function()
     $row->userId = Auth::user()->id;
     $row->points = Session::get('points');
     $row->answers = Session::get('answers');
+    $row->difficulty = Session::get('difficulty');
     $id = array();
     $questions = json_decode(Session::get('questions'));
     foreach ($questions as $question) {
