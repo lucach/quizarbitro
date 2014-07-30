@@ -88,19 +88,15 @@ $(document).ready(function() {
     });
 }); 
 
-if (localStorage.getItem("saved") != 1)
-{
-    $.ajax({
+$.ajax({
         type: "GET",
         url: "{{url('/')}}/savequiz",
         async: true,
         success : function() {
             // TODO Subsequential update needed
             showSaveResult(true);
-
         },
-    });
-}
+});
 
 </script>
 
