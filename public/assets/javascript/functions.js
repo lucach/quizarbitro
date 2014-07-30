@@ -32,7 +32,6 @@ function showSaveResult(good)
       delay: 5000,
       stackup_spacing: 10 // spacing between consecutively stacked growls.
     });
-    localStorage.setItem("saved",1);
 }
 
 function filter(all)

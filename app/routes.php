@@ -157,6 +157,14 @@ Route::get('end', array('before' => 'auth', function()
 Route::get('savequiz', array('before' => 'auth', function()
 {
     // TODO We're not checking errors at all... Mind to update AJAX accordingly.
+
+    // Update user table
+    $total_score = (Auth::user()->average_score * Auth::user()->tests_done) + (int)Session::get('points');
+    Auth::user()->average_score = $total_score / (Auth::user()->tests_done + 1);
+    Auth::user()->increment('tests_done');
+    Auth::user()->save();
+
+    // Add a new row to history
     $row = new History;
     $row->userId = Auth::user()->id;
     $row->points = Session::get('points');

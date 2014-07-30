@@ -89,13 +89,13 @@ $(document).ready(function() {
 }); 
 
 $.ajax({
-        type: "GET",
-        url: "{{url('/')}}/savequiz",
-        async: true,
-        success : function() {
-            // TODO Subsequential update needed
-            showSaveResult(true);
-        },
+    type: "GET",
+    url: "{{url('/')}}/savequiz",
+    async: true,
+    success : function() {
+        // TODO Subsequential update needed
+        showSaveResult(true);
+    },
 });
 
 </script>
