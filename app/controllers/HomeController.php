@@ -64,9 +64,8 @@ class HomeController extends BaseController
                 'required',
                 'min:6'
             ) ,
-            'name' => array(
-                'required'
-            ) ,
+            'name' => 'required',
+            'username' => array('required', 'unique:qa_users')
         );
 
         $validation = Validator::make(Input::all() , $rules);
@@ -79,6 +78,10 @@ class HomeController extends BaseController
         $user->mail = Input::get('mail');
         $user->password = Hash::make(Input::get('password'));
         $user->name = Input::get('name');
+        $user->username = Input::get('username');
+        $user->title_id = Input::get('titles');
+        $user->section_id = Input::get('sections');
+        $user->category_id = Input::get('categories');
         $user->save();
         return Redirect::to('/')->with('success', 'Registrazione effettuata con successo!');
     }

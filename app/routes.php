@@ -275,7 +275,14 @@ Route::post('password/reset/{token}', array(
 
 Route::get('registration', function()
 {
-    return View::make('registration');
+    // Retrieve data to fill <select> fields.
+    $titles = Title::orderBy('id', 'ASC')->lists('name', 'id');
+    $categories = Category::orderBy('id', 'ASC')->lists('name', 'id');
+    $sections = Section::orderBy('id', 'ASC')->lists('name', 'id');
+
+    return View::make('registration', array('titles' => $titles,
+                                            'categories' => $categories,
+                                            'sections' => $sections));
 });
 
 
