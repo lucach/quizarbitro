@@ -9,18 +9,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
 	protected $table = 'qa_users';
-
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
 	protected $hidden = array('password', 'remember_token');
 
 	public function getReminderEmail()
@@ -28,5 +17,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->mail;
     }
 
+    public function category()
+    {
+    	return $this->hasOne('Category', 'id', 'category_id');
+    }
+
+    public function title()
+    {
+    	return $this->hasOne('Title', 'id', 'title_id');
+    }
+
+    public function section()
+    {
+    	return $this->hasOne('Section', 'id', 'section_id');
+    }
 
 }
