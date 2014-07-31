@@ -56,8 +56,10 @@
       </div>
   </div>
 
-  <div class="form-group" id="form-submit"><div class="col-lg-4 col-lg-offset-2">
-    {{ Form::submit('Invia', array('class' => 'btn btn-default btn-block')) }}
+  <div class="form-group" id="form-submit">
+    <div class="col-lg-4 col-lg-offset-2">
+      {{ Form::submit('Invia', array('class' => 'btn btn-default btn-block')) }}
+    </div>
   </div>
 
 {{ Form::close() }}

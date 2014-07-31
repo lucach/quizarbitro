@@ -184,9 +184,23 @@ Route::get('end', array('before' => 'auth', function()
 
 Route::get('profile', array('before' => 'auth', function()
 {
+    // Retrieve data to fill <select> fields.
+    // The first item is the current option for auth user.
+
+    $titles = Title::where('id', Auth::user()->title->id)->lists('name', 'id')
+        + Title::where('id', '!=', Auth::user()->title->id)->orderBy('id', 'ASC')->lists('name', 'id');
+    $categories = Category::where('id', Auth::user()->category->id)->lists('name', 'id')
+        + Category::where('id', '!=', Auth::user()->category->id)->orderBy('id', 'ASC')->lists('name', 'id');
+    $sections = Section::where('id', Auth::user()->section->id)->lists('name', 'id')
+        + Section::where('id', '!=', Auth::user()->section->id)->orderBy('id', 'ASC')->lists('name', 'id');
+
     return View::make('profile')
         ->with('mail', Auth::user()->mail)
-        ->with('name', Auth::user()->name);
+        ->with('name', Auth::user()->name)
+        ->with('username', Auth::user()->username)
+        ->with('sections', $sections)
+        ->with('categories', $categories)
+        ->with('titles', $titles);
 }));
 
 
@@ -287,3 +301,6 @@ Route::get('registration', function()
 
 
 Route::post('registration', array('uses' => 'HomeController@newUser'));
+
+
+Route::post('profile', array('before' => 'auth', 'uses' => 'HomeController@updateUser'));

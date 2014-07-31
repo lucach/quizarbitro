@@ -85,4 +85,16 @@ class HomeController extends BaseController
         $user->save();
         return Redirect::to('/')->with('success', 'Registrazione effettuata con successo!');
     }
+
+    public function updateUser()
+    {
+        $user = Auth::user();
+        $user->title_id = Input::get('titles');
+        $user->section_id = Input::get('sections');
+        $user->category_id = Input::get('categories');
+        $user->save();
+        return Redirect::to('/profile')->with('success', 'Informazioni aggiornate con successo!');
+    }
+
+
 }
