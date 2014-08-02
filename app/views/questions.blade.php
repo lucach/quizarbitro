@@ -9,7 +9,7 @@ quizArbitro = function(){
     function init()
     {
         quizArbitro.currentQuestion = 0;
-        quizArbitro.answers = "2222222222222222222222222";
+        quizArbitro.answers = "222222222222222222222222222222";
         quizArbitro.lastIntervalID = null;
         $(function() { // wait until the page is ready
             $("#question_law").html(getDescriptionByLawID($("#question_law").html()));
@@ -32,7 +32,7 @@ quizArbitro = function(){
         $("#btn-true").blur();
         $("#btn-false").blur();
 
-        $("#current_question_string").html("Domanda corrente: " + parseInt(id+1) + " / 25");
+        $("#current_question_string").html("Domanda corrente: " + parseInt(id+1) + " / 30");
         $("#question_law").html(getDescriptionByLawID(quizArbitro.questions[id].law));
         $("#question_text").html(quizArbitro.questions[id].question);
 
@@ -60,7 +60,7 @@ quizArbitro = function(){
             $("#backButton").prop('disabled', false);
         $("#nextButton").prop('disabled', false);
 
-        if (id == 24)
+        if (id == 29)
         {
             $("#nextButton").attr("onclick","quizArbitro.endQuiz()");
             $("#nextButton").html("Termina");
@@ -140,7 +140,7 @@ quizArbitro = function(){
     }
 
     function showProgress() {
-        var tot = 25;
+        var tot = 30;
         var htmlcode = "<div class=\"progress\">";
         for (var i = 0; i < tot; )
             if (quizArbitro.answers.substring(i,i+1) == 2) //Blue, no answer 
@@ -195,7 +195,7 @@ quizArbitro.init();
         </div>
         <!-- TODO-UI: Maybe remove the following div? -->
         <div class="row top-buffer">
-            <div id="current_question_string" class="span8 text-center">Domanda corrente: 1 / 25</div>
+            <div id="current_question_string" class="span8 text-center">Domanda corrente: 1 / 30</div>
         </div>
         <div class="row top-buffer" id="progress_bar"> </div>
    </div>

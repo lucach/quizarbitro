@@ -26,7 +26,7 @@ Route::get('quiz/all', array('before' => 'auth', function()
 
 Route::post('quiz/{id}', array('before' => 'auth', function($id)
 {
-    /** TODO This can be really a CPU-intensive task
+    /** TODO This can be really a CPU-intensive task (in respect to what it does)
      *    - reads a file
      *    - decodes JSON
      *    - encodes JSON
@@ -46,14 +46,15 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
     // The following is, as agreed, the way we choose which questions
     // should appear in a quiz.
     $laws = array (1, 1, 2, 3, 3, 3, 4, 5, 5, 6, 6, 7, 8, 11, 11,
-        12, 12, 12, 13, 14, 15, array(9, 10, 16, 17), 14, 18, 13);
+        12, 12, 12, 13, 14, 15, array(9, 10, 16, 17), 14, 18, 13,
+        12, 4, 19, 19, array(9, 10, 16, 17));
 
     $hard_difficulties = array (0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0,
-        1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1);
+        1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0);
 
-    // Hard questions are limited, so mix again them
+    // For certain laws, we choose to display hard questions only in 50% of cases.
     if (rand()%2)
-        $hard_difficulties[2] = $hard_difficulties[6] = $hard_difficulties[11] = 1;
+        $hard_difficulties[2] = $hard_difficulties[11] = 1;
     else
         $hard_difficulties[12] = $hard_difficulties[20] = $hard_difficulties[21] = 1;
  
@@ -61,11 +62,11 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
     // exactly the same to not lost their parallelism.
 
     $tmp = array();
-    for ($i=0; $i<25; $i++) {
+    for ($i=0; $i<30; $i++) {
       $tmp[$i] = array($laws[$i], $hard_difficulties[$i]);
     }
     shuffle($tmp);
-    for ($i=0; $i<25; $i++) {
+    for ($i=0; $i<30; $i++) {
       $laws[$i] = $tmp[$i][0];
       $hard_difficulties[$i] = $tmp[$i][1];
     }
@@ -73,9 +74,9 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
     // Extract each one from the database and put in new session
     Session::forget('questions');
     $questions = array();
-    $answers = array_fill(0, 25, -1);
+    $answers = array_fill(0, 30, -1);
     $id_to_be_avoided = array(-1); // dummy ID to make it working with the first query
-    for ($i = 0; $i < 25; $i++)
+    for ($i = 0; $i < 30; $i++)
     {
         $question = Question::orderBy(DB::raw('RAND()'))
                         ->whereIn('law', (is_int($laws[$i])) ? array($laws[$i]) : $laws[$i]) // convert to one-element array iff it's not already in that way
@@ -138,7 +139,7 @@ Route::get('end', array('before' => 'auth', function()
             array_push($all_results, 0);
     }
 
-    $percentage = ($points*100) / 25;
+    $percentage = ($points*100) / 30;
     if ($percentage == 100)
         $outcome_str = "Eccellente! Per te il Regolamento non ha segreti! Complimenti!";
     else

@@ -72,9 +72,10 @@ function getDescriptionByLawID(law)
 		"Regola 15 - La rimessa dalla linea laterale",
 		"Regola 16 - Il calcio di rinvio",
 		"Regola 17 - Il calcio d'angolo",
-		"Procedure per determinare la squadra vincente di una gara"
+		"Procedure per determinare la squadra vincente di una gara",
+        "Regolamento A.I.A."
 	];
-	if (law < 1 || law > 18)
+	if (law < 1 || law > 19)
 		return null;
 	else
 		return descriptions[law];

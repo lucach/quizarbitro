@@ -55,7 +55,7 @@
                 @foreach ($rows as $row)
                 <tr>
                     <td> {{ $row->created_at }} </td> <!-- TODO We're always using UTC thus confusing the user -->
-                    <td> {{ $row->points }}/25 
+                    <td> {{ $row->points }}/30
                         <input style="margin-right:50px; float:right" value="Dettagli &raquo;" type="button" class="btn btn-default" 
                             onclick='load( "{{ str_replace('"','\"',$row['questions']) }}" ,"{{ str_replace('"','\"',$row['answers']) }}")' /></td>
                     </td>
