@@ -70,7 +70,7 @@
     showNotification('danger', "{{ $message }}");
 @endforeach
 
-$('#form-name').click(function() {
+$('#form-name').focusin(function() {
     $('#name-warning').show();
 });
 
