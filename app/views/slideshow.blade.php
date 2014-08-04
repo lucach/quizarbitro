@@ -58,26 +58,24 @@
     </head>
     <body>
         <div id="wrapper">
+
             <div class="right-menu">
+                {{ Form::open(array('url' => 'login', 'class' => 'form-inline', 'style' => 'display: inline;')) }}
+                <div class="form-group" id="form-mail">
+                    {{ Form::text('email', Input::old('email'), array('placeholder' => 'Email', 'class' => 'form-control')) }}
+                </div>
+                <div class="form-group" id="form-pwd">
+                    {{ Form::password('password', array('placeholder' => 'Password', 'class' => 'form-control')) }}
+                </div>
+                {{ Form::submit('Accedi', array('class' => 'btn btn-default')) }}
+                &nbsp;&nbsp; oppure &nbsp;&nbsp;
+                <button type="button" onclick='location="{{url('/')}}/registration"' class="btn btn-primary">Registrati</button>
 
-            {{ Form::open(array('url' => 'login', 'class' => 'form-inline', 'style' => 'display: inline;')) }}
-            <div class="form-group" id="form-mail">
-                {{ Form::text('email', Input::old('email'), array('placeholder' => 'Email', 'class' => 'form-control')) }}
-            </div>
-            <div class="form-group" id="form-pwd">
-                {{ Form::password('password', array('placeholder' => 'Password', 'class' => 'form-control')) }}
-            </div>
-
-            {{ Form::submit('Accedi', array('class' => 'btn btn-default')) }} 
-         
-            {{ Form::close() }}
-
-            &nbsp;&nbsp; oppure &nbsp;&nbsp;
-
-            <button onclick='location="{{url('/')}}/registration"' class="btn btn-primary">Registrati</button>
-            <p id="lostpwd" style="margin-right:44%; margin-top: 1%"><a href="password/reset">Hai perso la password?</a></p>
-
-
+                <div style="margin-top:5px">
+                    <p style="text-align:left; float:left">{{ Form::checkbox('remember_me') }} Ricordami</p>
+                    <p id="lostpwd" style="margin-right:44%; padding-top: 2px"><a href="password/reset">Hai perso la password?</a></p>
+                </div>
+                {{ Form::close() }}
             </div>
 
             <div class="snappish-main">
@@ -103,8 +101,6 @@
                     <p>Domande e risposte sono il cuore di QuizArbitro.<br>Per questo su esse vi è la massima cura, con aggiornamenti continui. <br> Fatti da arbitri.</p>
                 </article>
             </div>
-            <footer>
-            </footer>
         </div>
     <script type="text/javascript">
         var $snappish = $('#wrapper').snappish();

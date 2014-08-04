@@ -9,16 +9,15 @@ class HomeController extends BaseController
     public function doLogin()
     {
 
-        // validate the info, create rules for the inputs
         $rules = array(
             'email' => 'required|email', // make sure the email is an actual email
             'password' => 'required'
         );
 
-        // run the validation rules on the inputs from the form
+        // Run the validation rules on the inputs from the form
         $validator = Validator::make(Input::all() , $rules);
 
-        // if the validator fails, redirect back to the form
+        // If the validator fails, redirect back to the form
         if ($validator->fails())
         {
             return Redirect::to('/')->withErrors($validator) // send back all errors to the login form
@@ -27,20 +26,19 @@ class HomeController extends BaseController
         else
         {
 
-            // create our user data for the authentication
+            // Create our user data for the authentication
             $userdata = array(
                 'mail' => Input::get('email') ,
                 'password' => Input::get('password')
             );
 
-            // attempt to do the login
-            if (Auth::attempt($userdata))
+            // Attempt to do the login, remembering the user if he requested that.
+            if (Auth::attempt($userdata, (Input::get('remember_me') == '1') ? true : false))
             {
                 return Redirect::to('home');
             }
             else
             {
-                // validation not successful, send back to form
                 return Redirect::to('/')->withErrors('Combinazione email/password errata.');
             }
         }
