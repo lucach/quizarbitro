@@ -19,6 +19,10 @@ quizArbitro = function(){
                 url: '{{ url('/') }}' + '/quiz/all',
                 success: function(result) {
                     quizArbitro.questions = $.parseJSON(result);
+                    // Write extracted IDs to console log. Useful for debugging purposes.
+                    quizArbitro.questions.forEach(function(question){
+                        console.log("ID: #" + question["id"]);
+                    });
                 }
             });
         });

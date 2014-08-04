@@ -17,6 +17,7 @@ Route::get('quiz/all', array('before' => 'auth', function()
     $all_questions = json_decode(Session::get('questions'));
     $questions_text = array();
     foreach ($all_questions as $index => $question) {
+        $questions_text[$index]["id"] = $question[0]->_id;
         $questions_text[$index]["question"] = $question[0]->question;
         $questions_text[$index]["law"] = $question[0]->law;
     }
