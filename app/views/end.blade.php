@@ -24,7 +24,10 @@
                                     @else
                                         <tr class="danger">
                                     @endif
-                                    <td> {{ $question[0]->question }} </td>
+                                    <td>
+                                        <p id="law-{{$index}}" class="law"></p>
+                                        {{ $question[0]->question }}
+                                    </td>
                                     @if ($answers[$index] == 1)
                                         <td> Vero </td>
                                     @else
@@ -67,7 +70,10 @@
 
 <script type="text/javascript">
 
-$(document).ready(function() {
+$(function(){
+    @foreach ($questions as $index => $question)
+        $("#law-{{$index}}").html(getDescriptionByLawID({{$question[0]->law}}));
+    @endforeach
     $(window).scroll(function() {
         if ($(document).height()*0.66 <= ($(window).height() + $(window).scrollTop()))
         {
@@ -86,8 +92,7 @@ $(document).ready(function() {
         else 
             $(".bootstrap-growl").alert('close');                                    
     });
-}); 
-
+});
 </script>
 
 @stop

@@ -12,7 +12,10 @@
                 @else
                     <tr class="danger">
                 @endif
-                <td> {{ $question->question }} </td>
+                <td>
+                    <p id="law-{{$index}}" class="law"></p>
+                    {{ $question->question }}
+                </td>
                 @if ($answers[$index] == 1)
                     <td> Vero </td>
                 @else
@@ -35,3 +38,10 @@
         </tbody>
     </table>
 </div>
+
+<script type="text/javascript">
+$(function(){
+    @foreach ($questions as $index => $question)
+        $("#law-{{$index}}").html(getDescriptionByLawID({{$question->law}}));
+    @endforeach
+});</script>

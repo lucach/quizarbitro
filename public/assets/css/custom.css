@@ -51,11 +51,11 @@ html, body {
 
 /* For displaying <p> in some pages ------ */
 .big {
-    font-size:120%;
+    font-size: 120%;
 }
 
 .right-menu {
-     top:10px; 
+     top: 10px;
      text-align: right; 
      right: 2%; 
      z-index:10; 
@@ -63,28 +63,32 @@ html, body {
 }
 
 .btn {
-    font-weight: normal;
+    font-weight: normal
+}
+
+.law {
+    font-size: 85%;
+    margin-bottom: 0
 }
 
 /*HISTORY TABLE*/
 table.tablesorter {
-
     text-align: left;
-    border: 0;
+    border: 0
 }
 table.tablesorter thead tr .header {
     background-image: url(../images/bg.gif);
     background-repeat: no-repeat;
     background-position: center right;
-    cursor: pointer;
+    cursor: pointer
 }
 
 table.tablesorter thead tr .headerSortUp {
-    background-image: url(../images/asc.gif);
+    background-image: url(../images/asc.gif)
 }
 table.tablesorter thead tr .headerSortDown {
-    background-image: url(../images/desc.gif);
+    background-image: url(../images/desc.gif)
 }
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
-    background-color: #8dbdd8;
+    background-color: #8dbdd8
 }

@@ -113,8 +113,11 @@ quizArbitro = function(){
                 showNotification("warning", "Sembrano esserci problemi con il salvataggio delle risposte...");
             }
         });
-        // TODO: This may lead to sync problem(s) if the AJAX request is completed with a certain delay. Needed further investigation
-        if (quizArbitro.answers[quizArbitro.currentQuestion+1] == 2) // go to next question iff hasn't been answered yet.
+        // TODO: This may lead to sync problem(s) if the AJAX request is
+        // completed with a certain delay. Further investigation is needed
+
+        // Go to next question iff hasn't been answered yet.
+        if (quizArbitro.answers[quizArbitro.currentQuestion+1] == 2)
             goNext();
         else
             goToId(quizArbitro.currentQuestion);
