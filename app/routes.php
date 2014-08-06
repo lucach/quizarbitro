@@ -97,6 +97,7 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
     Session::put('questions', json_encode($questions));
     Session::put('answers', json_encode($answers));
     Session::put('difficulty', $difficulty);
+    Session::put('store', true);
 
     // Display the first question
     return View::make('questions')
@@ -155,25 +156,32 @@ Route::get('end', array('before' => 'auth', function()
                 else
                     $outcome_str = "Molto male! In queste condizioni non puoi arbitrare nemmeno i pulcini! Studia il Regolamento!";
 
-    // Update user table
-    $total_score = (Auth::user()->average_score * Auth::user()->tests_done) + (int)$points;
-    Auth::user()->average_score = $total_score / (Auth::user()->tests_done + 1);
-    Auth::user()->increment('tests_done');
-    Auth::user()->save();
+    // Save the quiz only once
+    // (i.e. do not save if the user has reloaded the page).
+    if (Session::has('store'))
+    {
+        Session::forget('store');
+        // Update user table
+        $total_score = (Auth::user()->average_score * Auth::user()->tests_done) + (int)$points;
+        Auth::user()->average_score = $total_score / (Auth::user()->tests_done + 1);
+        Auth::user()->increment('tests_done');
+        Auth::user()->save();
 
-    // Save the quiz in history table
-    $row = new History;
-    $row->userId = Auth::user()->id;
-    $row->points = $points;
-    $row->answers = Session::get('answers');
-    $row->difficulty = Session::get('difficulty');
-    $id = array();
-    $questions = $all_questions;
-    foreach ($questions as $question) {
-        array_push($id, $question[0]->_id);
+        // Save the quiz in history table
+        $row = new History;
+        $row->userId = Auth::user()->id;
+        $row->points = $points;
+        $row->answers = Session::get('answers');
+        $row->difficulty = Session::get('difficulty');
+        $id = array();
+        $questions = $all_questions;
+        foreach ($questions as $question) {
+            array_push($id, $question[0]->_id);
+        }
+        $row->questions = json_encode($id);
+        $row->save();
     }
-    $row->questions = json_encode($id);
-    $row->save();
+
 
     return View::make('end')
                 ->with('points', $points)
