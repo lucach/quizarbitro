@@ -37,18 +37,16 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
     </div>
 
 <script type="text/javascript">
     @if (Session::has('info'))
         showNotification('info', "{{ Session::get("info") }}");
     @endif
+    @if (Session::has('error'))
+        showNotification('danger', "{{ Session::get("error") }}");
+    @endif
+
     $(function(){
         showHistoryChart();
         moment.lang('it');

@@ -116,9 +116,8 @@ Route::get('logout', array('uses' => 'HomeController@doLogout'));
 Route::get('home', array('before' => 'auth', 'as' => 'home', function()
 {
 	$last_quiz = History::where('userId', Auth::user()->id)
-                    ->where('created_at', History::where('userId', Auth::user()->id)
-                                            ->max('created_at'))
-                    ->get();
+                    ->where('created_at', History::where('userId',
+                        Auth::user()->id)->max('created_at'))->get();
 
     return View::make('home')->with('last_quiz_datetime', 
         (count($last_quiz) > 0) ? $last_quiz[0]->created_at : "");
@@ -127,6 +126,11 @@ Route::get('home', array('before' => 'auth', 'as' => 'home', function()
 
 Route::get('end', array('before' => 'auth', function()
 {
+    // We refuse to give a response if this is not called from a quiz.
+    if (substr(URL::previous(), 0, -2) != URL::to('/newquiz'))
+        return Redirect::to('home')->with('error', 'La risorsa richiesta non '.
+            'è accessibile.');
+
     $all_questions = json_decode(Session::get('questions'));
     $all_answers = json_decode(Session::get('answers'));
     $all_results = array();
