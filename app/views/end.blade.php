@@ -26,7 +26,7 @@
                                     @endif
                                     <td>
                                         <p id="law-{{$index}}" class="law"></p>
-                                        {{ $question[0]->question }}
+                                        {{ $question->question }}
                                     </td>
                                     @if ($answers[$index] == 1)
                                         <td> Vero </td>
@@ -38,10 +38,10 @@
                                     @else
                                         <td>
                                             <b> Errato </b> <br>
-                                            @if ($question[0]->isTrue == 1)
+                                            @if ($question->isTrue == 1)
                                                 Il quesito è vero
                                             @else
-                                                {{ $question[0]->correction }}
+                                                {{ $question->correction }}
                                             @endif
                                         </td>
                                     @endif
@@ -72,7 +72,7 @@
 
 $(function(){
     @foreach ($questions as $index => $question)
-        $("#law-{{$index}}").html(getDescriptionByLawID({{$question[0]->law}}));
+        $("#law-{{$index}}").html(getDescriptionByLawID({{$question->law}}));
     @endforeach
     $(window).scroll(function() {
         if ($(document).height()*0.66 <= ($(window).height() + $(window).scrollTop()))

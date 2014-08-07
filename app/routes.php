@@ -17,9 +17,9 @@ Route::get('quiz/all', array('before' => 'auth', function()
     $all_questions = json_decode(Session::get('questions'));
     $questions_text = array();
     foreach ($all_questions as $index => $question) {
-        $questions_text[$index]["id"] = $question[0]->_id;
-        $questions_text[$index]["question"] = $question[0]->question;
-        $questions_text[$index]["law"] = $question[0]->law;
+        $questions_text[$index]["id"] = $question->_id;
+        $questions_text[$index]["question"] = $question->question;
+        $questions_text[$index]["law"] = $question->law;
     }
     return json_encode($questions_text);
 }));
@@ -84,7 +84,8 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
                         ->whereNotIn('_id', $id_to_be_avoided)
                         ->where('isHard', ($difficulty == 0) ? 0 : $hard_difficulties[$i])
                         ->take(1)
-                        ->get();
+                        ->get()
+                        ->first();
         array_push($questions, $question);
         array_push($id_to_be_avoided, intval($question->first()->_id));
 
@@ -101,8 +102,8 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
 
     // Display the first question
     return View::make('questions')
-        ->with('question_text', $questions[0][0]->question)
-        ->with('question_law', $questions[0][0]->law);
+        ->with('question_text', $questions[0]->question)
+        ->with('question_law', $questions[0]->law);
 
 }));
 
@@ -116,11 +117,12 @@ Route::get('logout', array('uses' => 'HomeController@doLogout'));
 Route::get('home', array('before' => 'auth', 'as' => 'home', function()
 {
 	$last_quiz = History::where('userId', Auth::user()->id)
-                    ->where('created_at', History::where('userId',
-                        Auth::user()->id)->max('created_at'))->get();
+        ->where('created_at', History::where('userId', Auth::user()->id)->
+            max('created_at'))
+        ->take(1)->get()->first();
 
     return View::make('home')->with('last_quiz_datetime', 
-        (count($last_quiz) > 0) ? $last_quiz[0]->created_at : "");
+        ($last_quiz) ? $last_quiz->created_at : "");
 })); 
 
 
@@ -136,7 +138,7 @@ Route::get('end', array('before' => 'auth', function()
     $all_results = array();
     $points = 0;
     foreach ($all_questions as $index => $question) {
-        if ($question[0]->isTrue == $all_answers[$index])
+        if ($question->isTrue == $all_answers[$index])
         {
             array_push($all_results, 1);
             $points++;
@@ -180,12 +182,11 @@ Route::get('end', array('before' => 'auth', function()
         $id = array();
         $questions = $all_questions;
         foreach ($questions as $question) {
-            array_push($id, $question[0]->_id);
+            array_push($id, $question->_id);
         }
         $row->questions = json_encode($id);
         $row->save();
     }
-
 
     return View::make('end')
                 ->with('points', $points)
