@@ -10,46 +10,7 @@
                     <div id="input" class="top-buffer col-md-6 col-md-offset-3">
                             <button class="btn btn-block btn-default" id="btn-filter" onclick="filter(0)" > Mostra solo gli errori </button>
                     </div> <br> <br> <br>
-                    <div id="questions" class="row top-buffer">
-                        <table class='table table-condensed'> 
-                            <thead><tr>
-                                <th class='large'>Domanda</th>
-                                <th class='small'>Tua risposta</th>
-                                <th class='large'>Esito</th>
-                            </tr></thead>
-                            <tbody>
-                                @foreach ($questions as $index => $question)
-                                    @if ($results[$index] == 1)
-                                        <tr class="success">
-                                    @else
-                                        <tr class="danger">
-                                    @endif
-                                    <td>
-                                        <p id="law-{{$index}}" class="law"></p>
-                                        {{ $question->question }}
-                                    </td>
-                                    @if ($answers[$index] == 1)
-                                        <td> Vero </td>
-                                    @else
-                                        <td> Falso </td>
-                                    @endif
-                                    @if ($results[$index] == 1)
-                                        <td> Corretto </td>
-                                    @else
-                                        <td>
-                                            <b> Errato </b> <br>
-                                            @if ($question->isTrue == 1)
-                                                Il quesito è vero
-                                            @else
-                                                {{ $question->correction }}
-                                            @endif
-                                        </td>
-                                    @endif
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                    @yield('results-table')
                 </div>
         </div>
     </div>
@@ -71,9 +32,6 @@
 <script type="text/javascript">
 
 $(function(){
-    @foreach ($questions as $index => $question)
-        $("#law-{{$index}}").html(getDescriptionByLawID({{$question->law}}));
-    @endforeach
     $(window).scroll(function() {
         if ($(document).height()*0.66 <= ($(window).height() + $(window).scrollTop()))
         {

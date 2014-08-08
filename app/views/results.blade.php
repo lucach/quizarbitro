@@ -1,4 +1,7 @@
-<div class="row top-buffer">
+@extends((!Request::AJAX()) ? 'end' : 'results-table-layout')
+@section('results-table')
+
+<div id="questions" class="row top-buffer">
     <table class='table table-condensed'> 
         <thead><tr>
             <th class='large'>Domanda</th>
@@ -42,6 +45,9 @@
 <script type="text/javascript">
 $(function(){
     @foreach ($questions as $index => $question)
-        $("#law-{{$index}}").html(getDescriptionByLawID({{$question->law}}));
+        $("#law-{{$index}}").html(getDescriptionByLawID({{ $question->law }}));
     @endforeach
-});</script>
+});
+</script>
+
+@stop

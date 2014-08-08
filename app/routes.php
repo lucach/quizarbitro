@@ -188,7 +188,7 @@ Route::get('end', array('before' => 'auth', function()
         $row->save();
     }
 
-    return View::make('end')
+    return View::make('results')
                 ->with('points', $points)
                 ->with('outcome_str', $outcome_str)
                 ->with('questions', $all_questions)
