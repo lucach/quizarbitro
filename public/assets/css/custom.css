@@ -54,12 +54,13 @@ html, body {
     font-size: 120%;
 }
 
-.right-menu {
-     top: 10px;
-     text-align: right; 
-     right: 2%; 
-     z-index:10; 
-     position: absolute;
+#right-menu {
+    color: #FFF;
+    top: 10px;
+    text-align: right;
+    right: 2%;
+    z-index:10;
+    position: absolute;
 }
 
 .btn {

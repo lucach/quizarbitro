@@ -41,16 +41,14 @@
             }
             article.slide-1 {
                 background-image: url('assets/images/walle.jpg');
-             }
-
-             .right-menu {
-                color: #FFF;
-             }
-             #main-description
-             {
+            }
+            #main-description
+            {
                 margin-top: 60px;
-             }
-             a,a:hover {color: #FFF;}
+            }
+            a, a:hover {
+                color: #FFF;
+            }
             * {
             animation-iteration-count: 1
             }
@@ -59,7 +57,7 @@
     <body>
         <div id="wrapper">
 
-            <div class="right-menu">
+            <div id="right-menu">
                 {{ Form::open(array('url' => 'login', 'class' => 'form-inline', 'style' => 'display: inline;')) }}
                 <div class="form-group" id="form-mail">
                     {{ Form::text('email', Input::old('email'), array('placeholder' => 'Email', 'class' => 'form-control')) }}
@@ -73,7 +71,9 @@
 
                 <div style="margin-top:5px">
                     <p style="text-align:left; float:left">{{ Form::checkbox('remember_me') }} Ricordami</p>
-                    <p id="lostpwd" style="margin-right:44%; padding-top: 2px"><a href="password/reset">Hai perso la password?</a></p>
+                    <p id="lostpwd" style="margin-right:44%; padding-top: 2px">
+                        <a id="lostpwd-link" href="password/reset">Hai perso la password?</a>
+                    </p>
                 </div>
                 {{ Form::close() }}
             </div>
@@ -118,6 +118,8 @@
             $('nav a').removeClass('active');
             $('nav a[data-slide-num="' + data.toSlideNum + '"]').addClass('active');
         }).on('scrollend.snappish', function(e, data) {
+            $("#right-menu").css('color', data.toSlideNum > 0 ? 'black' : 'white');
+            $("#lostpwd-link").css('color', data.toSlideNum > 0 ? 'black' : 'white');
             data.fromSlide.removeClass('active');
         });
 
