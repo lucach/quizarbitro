@@ -209,13 +209,20 @@ Route::get('profile', array('before' => 'auth', function()
     $sections = Section::where('id', Auth::user()->section->id)->lists('name', 'id')
         + Section::where('id', '!=', Auth::user()->section->id)->orderBy('id', 'ASC')->lists('name', 'id');
 
+    $profile_image_path;
+    if (File::exists(public_path().'/profile-images/'.md5(Auth::user()->mail)))
+        $profile_image_path = md5(Auth::user()->mail);
+    else
+        $profile_image_path = 'default';
+
     return View::make('profile')
         ->with('mail', Auth::user()->mail)
         ->with('name', Auth::user()->name)
         ->with('username', Auth::user()->username)
         ->with('sections', $sections)
         ->with('categories', $categories)
-        ->with('titles', $titles);
+        ->with('titles', $titles)
+        ->with('profile_image_path', $profile_image_path);
 }));
 
 
@@ -253,6 +260,21 @@ Route::post('result', array('before' => 'auth', function()
                     ->with('questions', $all_questions)
                     ->with('answers', $all_answers)
                     ->with('results', $all_results);
+}));
+
+
+Route::post('profile/images/{hash}', array('before' => 'auth', function($hash)
+{
+    if (md5(Auth::user()->mail) != $hash)
+        return Response::make("", 400); // Bad Request
+
+    $file = Input::file('files')[0];
+
+    if ($file->move(public_path().'/profile-images', md5(Auth::user()->mail)))
+        return Response::make("", 200); // OK
+    else
+        return Response::make("", 500); // Internal Server Error
+
 }));
 
 

@@ -12,3 +12,5 @@ Thumbs.db
 deploy.sh
 send.sh
 exclude.txt
+/public/profile-images/*
+!/public/profile-images/default
