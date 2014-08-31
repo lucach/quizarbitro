@@ -138,6 +138,9 @@ Route::get('end', array('before' => 'auth', function()
     $all_results = array();
     $points = 0;
     foreach ($all_questions as $index => $question) {
+        // Correction for law 18 and 19
+        if ($question->law == 18) $question->law = 'SQV';
+        if ($question->law == 19) $question->law = 'ASS';
         if ($question->isTrue == $all_answers[$index])
         {
             array_push($all_results, 1);
@@ -246,6 +249,9 @@ Route::post('result', array('before' => 'auth', function()
     $points = 0;
     foreach ($all_id_questions as $index => $question) {
         $current_question = Question::where('_id', $question)->get()->first();
+        // Correction for law 18 and 19
+        if ($current_question->law == 18) $current_question->law = 'SQV';
+        if ($current_question->law == 19) $current_question->law = 'ASS';
         if ($current_question->isTrue == $all_answers[$index])
         {
             array_push($all_results, 1);

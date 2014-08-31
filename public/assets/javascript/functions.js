@@ -73,8 +73,12 @@ function getDescriptionByLawID(law)
 		"Regola 16 - Il calcio di rinvio",
 		"Regola 17 - Il calcio d'angolo",
 		"Procedure per determinare la squadra vincente di una gara",
-        "Regolamento A.I.A."
+    "Regolamento A.I.A."
 	];
+  if (law == 'SQV')
+    law = 18;
+  else if (law == 'ASS')
+    law = 19;
 	if (law < 1 || law > 19)
 		return null;
 	else

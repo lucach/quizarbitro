@@ -4,6 +4,7 @@
 <div id="questions" class="row top-buffer">
     <table class='table table-condensed'> 
         <thead><tr>
+            <th class='small'>Regola</th>
             <th class='large'>Domanda</th>
             <th class='small'>Tua risposta</th>
             <th class='large'>Esito</th>
@@ -15,14 +16,18 @@
                 @else
                     <tr class="danger">
                 @endif
+                <td class="text-center">
+                    <p id="law-{{$index}}" data-toggle="tooltip" class="law">
+                        {{ $question->law }}
+                    </p>
+                </td>
                 <td>
-                    <p id="law-{{$index}}" class="law"></p>
                     {{ $question->question }}
                 </td>
                 @if ($answers[$index] == 1)
-                    <td> Vero </td>
+                    <td class="text-center"> Vero </td>
                 @else
-                    <td> Falso </td>
+                    <td class="text-center"> Falso </td>
                 @endif
                 @if ($results[$index] == 1)
                     <td> Corretto </td>
@@ -45,8 +50,9 @@
 <script type="text/javascript">
 $(function(){
     @foreach ($questions as $index => $question)
-        $("#law-{{$index}}").html(getDescriptionByLawID({{ $question->law }}));
+        $("#law-{{$index}}").attr('title', getDescriptionByLawID('{{ $question->law }}'));
     @endforeach
+    $("[id^=law-]").tooltip({'placement': 'auto'});
 });
 </script>
 
