@@ -1,10 +1,10 @@
-## QuizArbitro
+## QuizRef
 
 Una piattaforma per mettere alla prova la tua conoscenza delle regole del gioco del calcio!
 
 ## Sito Web
 
-http://quizarbitro.chiodini.org/
+http://quizref.chiodini.org/
 
 ### License
 

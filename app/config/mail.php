@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => $_ENV['GMAIL_ADDRESS'], 'name' => 'QuizArbitro'),
+	'from' => array('address' => $_ENV['GMAIL_ADDRESS'], 'name' => 'QuizRef'),
 
 	/*
 	|--------------------------------------------------------------------------

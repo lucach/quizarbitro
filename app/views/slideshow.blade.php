@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>QuizArbitro</title>
+        <title>QuizRef</title>
         <meta charset="utf-8">
         <meta name="author" content="Luca Chiodini">
         <meta name="viewport" content="width=device-width">
@@ -81,24 +81,24 @@
             <div class="snappish-main">
                 <article class="slide-1 active">
                     <div id="child">
-                        <h1>Quiz Arbitro</h1>
+                        <h1>QuizRef</h1>
                         <p id="main-description">Una nuova piattaforma di quiz sul regolamento del calcio è arrivata. <br>Ed è pronta per stupirti. </p>
                     </div>
                 </article>
                 <article class="slide-2">
                     <div class="image"></div>
                     <h1>Interattivo come nessun altro</h1>
-                    <p>I quiz classici sono noiosi. Ma fanno parte del passato. <br> Con un sistema interattivo, con QuizArbitro esercitarsi diventa divertente.</p>
+                    <p>I quiz classici sono noiosi. Ma fanno parte del passato. <br> Grazie a un sistema interattivo, con QuizRef esercitarsi diventa divertente.</p>
                 </article>
                 <article class="slide-3">
                     <div class="image"></div>
                     <h1>Tecnologico e moderno</h1>
-                    <p>HTML5, AJAX, Bootstrap e tanto altro. <br> QuizArbitro può essere consultato alla perfezione da qualsiasi device. <br> Per soddisfare ogni caso d'uso.</p>
+                    <p>Laravel, AJAX, Bootstrap e tanto altro. <br> QuizRef può essere consultato da qualsiasi device. <br> Per soddisfare ogni caso d'uso.</p>
                 </article>
                 <article class="slide-4">
                     <div class="image"></div>
                     <h1>Risposte a ogni domanda</h1>
-                    <p>Domande e risposte sono il cuore di QuizArbitro.<br>Per questo su esse vi è la massima cura, con aggiornamenti continui. <br> Fatti da arbitri.</p>
+                    <p>Domande e risposte sono il cuore di QuizRef.<br>Per questo su esse vi è la massima cura, con aggiornamenti continui. <br> Fatti da arbitri.</p>
                 </article>
             </div>
         </div>

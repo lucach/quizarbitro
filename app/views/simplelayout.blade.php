@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>QuizArbitro</title>
+        <title>QuizRef</title>
         <meta charset="utf-8">
         <meta name="author" content="Luca Chiodini">
         <meta name="viewport" content="width=device-width">
@@ -26,7 +26,7 @@
         <div class="navbar navbar-default navbar-static-top" role="navigation">
           <div class="container">
             <div class="navbar-header">
-              <a class="navbar-brand" href="#">Quiz Arbitro</a>
+              <a class="navbar-brand" href="#">QuizRef</a>
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
