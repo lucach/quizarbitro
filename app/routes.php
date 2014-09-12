@@ -170,13 +170,19 @@ Route::get('end', array('before' => 'auth', function()
     if (Session::has('store'))
     {
         Session::forget('store');
-        // Update user table
+
+        // A 20% bonus is given if the quiz was difficult.
+        if (Session::get('difficulty') == '1')
+            $points *= 1.2;
+
+        // Update user table: increment the number of test done and update his/
+        // her average score.
         $total_score = (Auth::user()->average_score * Auth::user()->tests_done) + (int)$points;
         Auth::user()->average_score = $total_score / (Auth::user()->tests_done + 1);
         Auth::user()->increment('tests_done');
         Auth::user()->save();
 
-        // Save the quiz in history table
+        // Save the quiz in history table.
         $row = new History;
         $row->userId = Auth::user()->id;
         $row->points = $points;
@@ -300,6 +306,34 @@ Route::get('history/json', array('before' => 'auth', function()
 
     return json_encode($array, JSON_NUMERIC_CHECK);
 
+}));
+
+
+Route::get('ranking', array('before' => 'auth', function()
+{
+    $rows = User::where('tests_done', '>', '0')
+        ->orderBy('average_score', 'DESC')
+        ->get(array('id', 'username', 'average_score'));
+
+    $thirty_days = new DateTime('today');
+    $thirty_days->modify('-30 day');
+
+
+    foreach ($rows as $row)
+    {
+        // Each user is awarded with 0.1 point for each quiz he/she has done
+        // in the last thirty days. This value can be a maximum of 2 points.
+        $recent_tests = History::where('userId', $row->id)
+                            ->where('created_at', '>', $thirty_days)
+                            ->count();
+        $bonus_value = min(2, $recent_tests * 0.1);
+        $row->average_score += $bonus_value;
+
+        // Round to the second decimal digit.
+        $row->average_score = round($row->average_score, 2);
+    }
+
+    return View::make('ranking')->with('data', $rows);
 }));
 
 
