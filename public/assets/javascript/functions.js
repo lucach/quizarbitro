@@ -73,16 +73,17 @@ function getDescriptionByLawID(law)
 		"Regola 16 - Il calcio di rinvio",
 		"Regola 17 - Il calcio d'angolo",
 		"Procedure per determinare la squadra vincente di una gara",
-    "Regolamento A.I.A."
+        "Regolamento Associativo AIA"
 	];
-  if (law == 'SQV')
-    law = 18;
-  else if (law == 'ASS')
-    law = 19;
-	if (law < 1 || law > 19)
-		return null;
-	else
-		return descriptions[law];
+    if (law == 'PROC')
+        law = 18;
+    else
+        if (law == 'ASS')
+            law = 19;
+    if (law < 1 || law > 19)
+        return null;
+    else
+        return descriptions[law];
 }
 
 var arrMonthNames = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"]
