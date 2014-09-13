@@ -36,7 +36,7 @@ $(function(){
         if ($(document).height()*0.66 <= ($(window).height() + $(window).scrollTop()))
         {
             if ($(".bootstrap-growl").length == 0)
-                $.bootstrapGrowl("Hai dei suggerimenti? Scrivi a <a href=\"mailto:{{$_ENV['GMAIL_ADDRESS']}}\">{{$_ENV['GMAIL_ADDRESS']}}</a>!", {
+                $.bootstrapGrowl("Hai dei suggerimenti? Scrivi a <a href=\"mailto:{{$_ENV['PUBLIC_MAIL_ADDRESS']}}\">{{$_ENV['PUBLIC_MAIL_ADDRESS']}}</a>!", {
                   ele: 'body', // which element to append to
                   type: 'info', // (null, 'info', 'error', 'success')
                   offset: {from: 'bottom', amount: 80}, // 'top', or 'bottom'
