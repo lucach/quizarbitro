@@ -14,15 +14,18 @@ quizRef = function(){
         $(function() { // wait until the page is ready
             $("#question_law").html(getDescriptionByLawID($("#question_law").html()));
             quizRef.showProgress();
-            // Retrieve all questions text
+            // Retrieve all questions text.
             $.ajax({
                 url: '{{ url('/') }}' + '/quiz/all',
                 success: function(result) {
                     quizRef.questions = $.parseJSON(result);
-                    // Write extracted IDs to console log. Useful for debugging purposes.
-                    quizRef.questions.forEach(function(question){
-                        console.log("ID: #" + question["id"]);
-                    });
+                    // Write extracted IDs to console log if the logged user is
+                    // administrator. This can be useful for debugging purposes.
+                    @if (Auth::user()->admin == true)
+                        quizRef.questions.forEach(function(question) {
+                            console.log("ID: #" + question["id"]);
+                        });
+                    @endif
                 }
             });
         });
