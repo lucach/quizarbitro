@@ -312,6 +312,7 @@ Route::get('history/json', array('before' => 'auth', function()
 Route::get('ranking', array('before' => 'auth', function()
 {
     $rows = User::where('tests_done', '>', '0')
+        ->where('admin', false)
         ->orderBy('average_score', 'DESC')
         ->get(array('id', 'username', 'average_score'));
 
