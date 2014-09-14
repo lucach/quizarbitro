@@ -16,44 +16,50 @@
           <div class="col-md-8">
             <form class="form-horizontal" action="profile" method="POST" role="form">
               <div class="form-group">
-                <label class="col-lg-2 control-label">Username</label>
-                <div class="col-lg-4">
+                <label class="col-lg-3 control-label">Username</label>
+                <div class="col-lg-3">
                   <p>{{ $username }}</p>
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-lg-2 control-label">Nome</label>
-                <div class="col-lg-4">
-                  <p>{{ $name }}</p>
+                <label class="col-lg-3 text-right control-label">Nome e Cognome</label>
+                <div class="col-lg-3">
+                  <p>
+                    @if ($name != "")
+                      {{ $name }}
+                    @else
+                      <i>Non impostato</i>
+                    @endif
+                  </p>
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-lg-2 control-label">Email</label>
-                <div class="col-lg-4">
+                <label class="col-lg-3 control-label">Email</label>
+                <div class="col-lg-3">
                   <p>{{ $mail }}</p>
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-lg-2 control-label">Qualifica</label>
-                <div class="col-lg-6">
+                <label class="col-lg-3 control-label">Qualifica</label>
+                <div class="col-lg-5">
                     {{ Form::select('titles', $titles , null, array('class' => 'form-control')) }}
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-lg-2 control-label">Sezione</label>
-                <div class="col-lg-6">
+                <label class="col-lg-3 control-label">Sezione</label>
+                <div class="col-lg-5">
                     {{ Form::select('sections', $sections , null, array('class' => 'form-control')) }}
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-lg-2 control-label">Categoria</label>
-                <div class="col-lg-6">
+                <label class="col-lg-3 control-label">Categoria</label>
+                <div class="col-lg-5">
                     {{ Form::select('categories', $categories , null, array('class' => 'form-control')) }}
                 </div>
               </div>
 
               <div class="form-group" id="form-submit">
-                <div class="col-lg-6 col-lg-offset-2">
+                <div class="col-lg-5 col-lg-offset-3">
                   {{ Form::submit('Aggiorna informazioni', array('class' => 'btn btn-primary btn-block')) }}
                 </div>
               </div>
@@ -61,8 +67,8 @@
               <hr>
 
               <div class="form-group">
-                <label class="col-lg-2 control-label">Password</label>
-                <div class="col-lg-6">
+                <label class="col-lg-3 control-label">Password</label>
+                <div class="col-lg-5">
                   <input id="submit-btn" class="form-control btn btn-default" value="Modifica la password" onclick="changePassword()" />
                 </div>
               </div>

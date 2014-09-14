@@ -1,7 +1,14 @@
 @extends('layout')
 @section('content')
-    <h4 class="text-center row top-buffer">Benvenuto {{ Auth::user()->name }}. Per iniziare, scegli un link dal menu in alto.</h4>
-
+    <h4 class="text-center row top-buffer">
+        <?php
+        if (Auth::user()->name != '')
+            $displayed_name = Auth::user()->name;
+        else
+            $displayed_name = Auth::user()->username;
+        ?>
+        Benvenuto {{$displayed_name}}. Per iniziare, scegli un link dal menu in alto.
+    </h4>
     <div class="row" style="margin-top:5%">
         <div class="col-md-offset-1 col-md-4" style="height:450px">
             <div class="panel panel-primary">

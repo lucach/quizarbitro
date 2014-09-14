@@ -62,7 +62,6 @@ class HomeController extends BaseController
                 'required',
                 'min:6'
             ) ,
-            'name' => 'required',
             'username' => array('required', 'unique:qa_users')
         );
 

@@ -15,11 +15,11 @@
   </div>
 
   <div class="form-group" id="form-name">
-    <label class="col-lg-2 control-label">Nome</label>
+    <label class="col-lg-2 control-label">Nome e Cognome</label>
     <div class="col-lg-4">
-        {{ Form::text('name', Input::old('name'), array('placeholder' => 'Il tuo nome', 'class' => 'form-control')) }}
+        {{ Form::text('name', Input::old('name'), array('placeholder' => 'Il tuo nome e cognome', 'class' => 'form-control')) }}
     </div>
-    <label id="name-warning" class="col-lg-2 control-label" style="display:none; text-align:left; font-weight: normal">Non sarà pubblico.</label>
+    <label id="name-warning" class="col-lg-2 control-label" style="display:none; text-align:left; font-weight: normal">Campo facoltativo. <br/> Non sarà pubblico.</label>
   </div>
 
   <div class="form-group" id="form-email">             
