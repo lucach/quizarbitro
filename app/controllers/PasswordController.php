@@ -14,11 +14,15 @@ class PasswordController extends BaseController
             $credentials = array(
                 'mail' => Auth::user()->mail
             );
-            Password::remind($credentials);
+            Password::remind($credentials, function($message){
+                $message->subject(Lang::get('mail.passwordremind'));
+            });
         }
         else
         {
-            switch ($response = Password::remind(Input::only('mail')))
+            switch ($response = Password::remind(Input::only('mail'), function($message){
+                $message->subject(Lang::get('mail.passwordremind'));
+            }))
             {
                 case Password::INVALID_USER:
                     return Redirect::back()->with('error', Lang::get($response));

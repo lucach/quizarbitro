@@ -6,6 +6,24 @@
 <script type="text/javascript" src="assets/javascript/jquery.fileupload.js"></script>
 <script type="text/javascript" src="assets/javascript/jquery.fileupload-process.js"></script>
 <script type="text/javascript" src="assets/javascript/jquery.fileupload-validate.js"></script>
+
+<script type="text/javascript">
+    function changePassword()
+    {
+        $('#submit-btn').prop('disabled', true);
+        $('#submit-btn').html('Elaborazione in corso...');
+        $.ajax({
+            type: 'GET',
+            url: '{{ url('/') }}' + '/password/reset',
+            success: function()
+            {
+                $('#submit-btn').html('Mail con le istruzioni invata');
+                showNotification('success', 'Ti è stata inviata una mail con le informazioni per cambiare la password.');
+            }
+        });
+    }
+</script>
+
 @stop
 @section('content')
     <div class="container">
@@ -69,7 +87,7 @@
               <div class="form-group">
                 <label class="col-lg-3 control-label">Password</label>
                 <div class="col-lg-5">
-                  <input id="submit-btn" class="form-control btn btn-default" value="Modifica la password" onclick="changePassword()" />
+                  <button id="submit-btn" class="form-control btn btn-default" onclick="changePassword()">Modifica la password</button>
                 </div>
               </div>
             </form>
