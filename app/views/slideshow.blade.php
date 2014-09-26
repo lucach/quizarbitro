@@ -42,15 +42,48 @@
             article.slide-1 {
                 background-image: url('assets/images/walle.jpg');
             }
-            #main-description
-            {
+            #main-description {
                 margin-top: 60px;
+            }
+            #right-menu {
+                z-index: 1;
+            }
+            #suggest-register {
+                position: absolute;
+                top: auto;
+                bottom: 5%;
+            }
+            .glyphicon {
+                cursor: pointer;
+                z-index: 2;
+                font-size: 400%;
+                position: absolute;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
+            }
+            .black {
+                color: #000;
+            }
+            .white {
+                color: #FFF;
+            }
+            .glyphicon.down {
+                top: auto;
+                bottom: 5%;
+            }
+            .glyphicon.up {
+                top: 1%;
+                bottom: auto;
+            }
+            .full-width {
+                width: 100%;
             }
             a, a:hover {
                 color: #FFF;
             }
             * {
-            animation-iteration-count: 1
+                animation-iteration-count: 1
             }
         </style>
     </head>
@@ -84,21 +117,30 @@
                         <h1>QuizRef</h1>
                         <p id="main-description">Una nuova piattaforma di quiz sul regolamento del calcio è arrivata. <br>Ed è pronta per stupirti. </p>
                     </div>
+                    <span onclick="$('#wrapper').trigger('scrolldown.snappish')" class="white down glyphicon glyphicon-chevron-down"></span>
                 </article>
                 <article class="slide-2">
+                    <span onclick="$('#wrapper').trigger('scrollup.snappish')" class="black up glyphicon glyphicon-chevron-up"></span>
                     <div class="image"></div>
                     <h1>Interattivo come nessun altro</h1>
-                    <p>I quiz classici sono noiosi. Ma fanno parte del passato. <br> Grazie a un sistema interattivo, con QuizRef esercitarsi diventa divertente.</p>
+                    <p>I quiz classici sono noiosi. Ma fanno parte del passato. <br> Grazie a un sistema interattivo, QuizRef rende l'esercitarsi divertente.</p>
+                    <span onclick="$('#wrapper').trigger('scrolldown.snappish')" class="black down glyphicon glyphicon-chevron-down"></span>
                 </article>
                 <article class="slide-3">
+                    <span onclick="$('#wrapper').trigger('scrollup.snappish')" class="black up glyphicon glyphicon-chevron-up"></span>
                     <div class="image"></div>
                     <h1>Tecnologico e moderno</h1>
-                    <p>Laravel, AJAX, Bootstrap e tanto altro. <br> QuizRef può essere consultato da qualsiasi device. <br> Per soddisfare ogni caso d'uso.</p>
+                    <p>Laravel, AJAX, Bootstrap e tanto altro. <br> QuizRef usa le più avanzate tecnologie, per essere sempre al passo con i tempi.</p>
+                    <span onclick="$('#wrapper').trigger('scrolldown.snappish')" class="black down glyphicon glyphicon-chevron-down"></span>
                 </article>
                 <article class="slide-4">
+                    <span onclick="$('#wrapper').trigger('scrollup.snappish')" class="black up glyphicon glyphicon-chevron-up"></span>
                     <div class="image"></div>
                     <h1>Risposte a ogni domanda</h1>
                     <p>Domande e risposte sono il cuore di QuizRef.<br>Per questo su esse vi è la massima cura, con aggiornamenti continui. <br> Fatti da arbitri.</p>
+                    <div id="suggest-register" class="col-md-offset-3 col-md-6">
+                        <button type="button" onclick='location="{{url('/')}}/registration"' class="full-width btn btn-lg btn-primary">Registrati subito</button>
+                    </div>
                 </article>
             </div>
         </div>
