@@ -7,12 +7,22 @@ class EveryTest extends TestCase {
         parent::setUp();
         Session::start();
         Route::enableFilters();
+        $_ENV += include __DIR__.'/../../.env.local.php';
     }
 
     public function testHome()
     {
         $this->call('GET', '/');
         $this->assertResponseOk();
+    }
+
+    public function testRegisterPage()
+    {
+        $this->call('GET', '/registration');
+        $this->assertResponseOk();
+        $this->assertViewHas('categories');
+        $this->assertViewHas('titles');
+        $this->assertViewHas('sections');
     }
 
     public function testEmptyLogin()
@@ -36,8 +46,6 @@ class EveryTest extends TestCase {
 
     public function testCorrectLogin()
     {
-        $_ENV += (include __DIR__.'/../../.env.local.php');
-
         $credentials = array(
             'email'=> $_ENV['ADMIN_MAIL'],
             'password'=> $_ENV['ADMIN_PASSWORD'],
