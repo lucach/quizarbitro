@@ -4,10 +4,10 @@ class EveryTest extends TestCase {
 
     public function setUp()
     {
+        $_ENV += include __DIR__.'/../../.env.local.php';
         parent::setUp();
         Session::start();
         Route::enableFilters();
-        $_ENV += include __DIR__.'/../../.env.local.php';
     }
 
     public function testHome()
