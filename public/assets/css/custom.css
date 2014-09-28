@@ -1,18 +1,25 @@
 .top-buffer {
 	margin-top:2%;
 }
+
 .table {
 	border: 1px solid #000;
 	border-collapse:separate;	/*FOR CHROME*/
 	font-size:100%;
 }
+
 .table thead th {
 	text-align: center;
 }
+
 #question_text {
 	font-size:120%;
 	text-align:center;
     min-height:150px;
+}
+
+.navbar-brand {
+    padding-top: 6px;
 }
 
 .progress-single {
