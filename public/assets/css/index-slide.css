@@ -123,8 +123,8 @@ article {
     -o-transform: translateX(-100%);
     transform: translateX(-100%); }
   article.slide-4 .image {
-    width: 30%; height: auto;
-    margin-top: 18%;
+    height: auto;
+    margin-top: 10%;
     background-image: url("../images/questions.png");
     -webkit-transform: translateX(100%);
     -moz-transform: translateX(100%);
