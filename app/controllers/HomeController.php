@@ -80,6 +80,14 @@ class HomeController extends BaseController
         $user->section_id = Input::get('sections');
         $user->category_id = Input::get('categories');
         $user->save();
+
+        // Send a welcome mail
+        Mail::queue('emails.welcome', array('username' => $user->username),
+            function($message) use ($user)
+        {
+            $message->to($user->mail, $user->name)->subject('Benvenuto in QuizRef!');
+        });
+
         return Redirect::to('/')->with('success', 'Registrazione effettuata con successo!');
     }
 
