@@ -82,9 +82,10 @@ class HomeController extends BaseController
         $user->save();
 
         // Send a welcome mail
-        Mail::queue('emails.welcome', array('username' => $user->username),
-            function($message) use ($user)
+        $id = $user->id;
+        Mail::queue('emails.welcome', array('username' => $user->username), function($message) use ($id)
         {
+            $user = User::find($id);
             $message->to($user->mail, $user->name)->subject('Benvenuto in QuizRef!');
         });
 
