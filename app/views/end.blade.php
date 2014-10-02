@@ -5,7 +5,7 @@
     <div class="row top-buffer">
         <div class="span8">
                 <div id="main-content">
-                    <p>Hai risposto correttamente a {{ $points }} domande su 30.</p> <br>
+                    <p>Hai risposto correttamente a {{ $good_answers }} domande su 30.</p> <br>
                     <p> {{ $outcome_str }} </p>
                     <div id="input" class="top-buffer col-md-6 col-md-offset-3">
                             <button class="btn btn-block btn-default" id="btn-filter" onclick="filter(0)" > Mostra solo gli errori </button>

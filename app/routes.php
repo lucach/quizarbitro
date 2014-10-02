@@ -139,7 +139,7 @@ Route::get('end', array('before' => 'auth', function()
     $all_questions = json_decode(Session::get('questions'));
     $all_answers = json_decode(Session::get('answers'));
     $all_results = array();
-    $points = 0;
+    $good_answers = 0;
     foreach ($all_questions as $index => $question) {
         // Correction for law 18 and 19
         if ($question->law == 18) $question->law = 'PROC';
@@ -147,13 +147,13 @@ Route::get('end', array('before' => 'auth', function()
         if ($question->isTrue == $all_answers[$index])
         {
             array_push($all_results, 1);
-            $points++;
+            $good_answers++;
         }
         else
             array_push($all_results, 0);
     }
 
-    $percentage = ($points*100) / 30;
+    $percentage = ($good_answers * 100) / 30;
     if ($percentage == 100)
         $outcome_str = "Eccellente! Per te il Regolamento non ha segreti! Complimenti!";
     else
@@ -174,6 +174,8 @@ Route::get('end', array('before' => 'auth', function()
     {
         Session::forget('store');
 
+        $points = $good_answers;
+
         // A 20% bonus is given if the quiz was difficult.
         if (Session::get('difficulty') == '1')
             $points *= 1.2;
@@ -188,6 +190,7 @@ Route::get('end', array('before' => 'auth', function()
         // Save the quiz in history table.
         $row = new History;
         $row->userId = Auth::user()->id;
+        $row->good_answers = $good_answers;
         $row->points = $points;
         $row->answers = Session::get('answers');
         $row->difficulty = Session::get('difficulty');
@@ -201,7 +204,7 @@ Route::get('end', array('before' => 'auth', function()
     }
 
     return View::make('results')
-                ->with('points', $points)
+                ->with('good_answers', $good_answers)
                 ->with('outcome_str', $outcome_str)
                 ->with('questions', $all_questions)
                 ->with('results', $all_results)
@@ -255,17 +258,13 @@ Route::post('result', array('before' => 'auth', function()
     $all_answers = json_decode(str_replace('\"', '"', Input::get('answers')));
     $all_results = array();
     $all_questions = array();
-    $points = 0;
     foreach ($all_id_questions as $index => $question) {
         $current_question = Question::where('_id', $question)->get()->first();
         // Correction for law 18 and 19
         if ($current_question->law == 18) $current_question->law = 'PROC';
         if ($current_question->law == 19) $current_question->law = 'ASS';
         if ($current_question->isTrue == $all_answers[$index])
-        {
             array_push($all_results, 1);
-            $points++;
-        }
         else
             array_push($all_results, 0);
         array_push($all_questions, $current_question);
@@ -302,8 +301,8 @@ Route::get('history/json', array('before' => 'auth', function()
 
     foreach ($rows as $row) {
         $date = date_create_from_format('Y-m-d H:i:s', $row->created_at);
-        $timestamp = $date->format('U')*1000;
-        $y_value = $row->points;
+        $timestamp = $date->format('U') * 1000;
+        $y_value = $row->good_answers;
         array_push($array, array($timestamp, $y_value));
     }
 
