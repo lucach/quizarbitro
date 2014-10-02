@@ -74,7 +74,8 @@ quizRef = function(){
             $("#nextButton").addClass("btn-primary");
         }
         else
-        {    $("#nextButton").html(">");
+        {
+            $("#nextButton").html(">");
             $("#nextButton").removeClass("btn-primary");
             $("#nextButton").attr("onclick", "quizRef.goNext()");
         }
@@ -92,7 +93,23 @@ quizRef = function(){
         {
             var confirm_end = confirm("Sei sicuro di voler terminare?");
             if (confirm_end)
-                location.href = "{{ url('/') }}" + "/" + "end";
+            {
+                $('#loading').modal('show');
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ url('/') }}' + '/answers',
+                    data: 'answers=' + quizRef.answers,
+                    success: function()
+                    {
+                        location.href = "{{ url('/') }}" + "/" + "end";
+                    },
+                    error: function()
+                    {
+                        $('#loading-modal-text').html('Si è verificato un errore nel salvataggio delle risposte. <br> Verrai reindirizzato alla pagina iniziale entro 5 secondi.')
+                        setTimeout(function(){location.href="{{ url('/') }}"}, 5000);
+                    }
+                });
+            }
         }
     }
 
@@ -107,24 +124,11 @@ quizRef = function(){
     {
         quizRef.answers = quizRef.answers.substr(0, quizRef.currentQuestion) + val + quizRef.answers.substr(quizRef.currentQuestion + 1);
 
-        $.ajax({
-            type: "POST",
-            data: "answer=" + val,
-            url: '{{ url('/') }}' + '/quiz/' + quizRef.currentQuestion,
-            error: function()
-            {   
-                showNotification("warning", "Sembrano esserci problemi con il salvataggio delle risposte...");
-            }
-        });
-        // TODO: This may lead to sync problem(s) if the AJAX request is
-        // completed with a certain delay. Further investigation is needed
-
         // Go to next question iff hasn't been answered yet.
         if (quizRef.answers[quizRef.currentQuestion+1] == 2)
             goNext();
         else
             goToId(quizRef.currentQuestion);
-
     }
 
     function goBack()
@@ -209,5 +213,16 @@ quizRef.init();
         </div>
         <div class="row top-buffer" id="progress_bar"> </div>
    </div>
+
+    <div id="loading" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p id="loading-modal-text" class="text-center">Salvataggio del quiz in corso...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     
 @stop

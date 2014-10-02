@@ -25,17 +25,21 @@ Route::get('quiz/all', array('before' => 'auth', function()
 }));
 
 
-Route::post('quiz/{id}', array('before' => 'auth', function($id)
+Route::post('answers', array('before' => 'auth', function()
 {
-    /** TODO This can be really a CPU-intensive task (in respect to what it does)
-     *    - reads a file
-     *    - decodes JSON
-     *    - encodes JSON
-     *    - writes a file
-     *    A better approach may be good.
-     */
-    $answers = json_decode(Session::get('answers'));
-    $answers[$id] = Input::get('answer');
+    $user_answers = Input::get('answers');
+
+    // Assert that we have exactly 30 answers.
+    if (strlen($user_answers) != 30)
+        App::abort(500);
+
+    // Assert that every answer is valid ('2' means unanswered).
+    if (strpos($user_answers, '2') !== false)
+        App::abort(500);
+
+    $answers = array();
+    for ($i = 0; $i < 30; $i++)
+        array_push($answers, $user_answers[$i]);
     Session::put('answers', json_encode($answers));
 }));
 
@@ -96,7 +100,6 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
 
     }
     Session::put('questions', json_encode($questions));
-    Session::put('answers', json_encode($answers));
     Session::put('difficulty', $difficulty);
     Session::put('store', true);
 
