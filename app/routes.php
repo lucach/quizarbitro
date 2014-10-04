@@ -91,7 +91,7 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
                         ->get()
                         ->first();
         array_push($questions, $question);
-        array_push($id_to_be_avoided, intval($question->first()->_id));
+        array_push($id_to_be_avoided, intval($question->_id));
 
         // If there are some question releated, push them in the array too
         if (isset($related_id[$question->first()->_id]))
