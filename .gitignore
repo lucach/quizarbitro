@@ -1,14 +1,11 @@
 /bootstrap/compiled.php
-/app/storage/sessions
-/app/storage/logs
-/app/storage/views
 /vendor
 composer.phar
-composer.lock
 .env.*.php
 .env.php
 .DS_Store
 Thumbs.db
+
 deploy.sh
 send.sh
 exclude.txt
