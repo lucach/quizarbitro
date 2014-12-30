@@ -8,10 +8,13 @@
 
         <link rel="stylesheet" type="text/css" href='//fonts.googleapis.com/css?family=Lato:300,400'>
         <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.1.1/jquery.qtip.min.css">
         <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
         <link rel="stylesheet" type="text/css" href="assets/css/index-slide.css"> 
         <link rel="stylesheet" type="text/css" href="assets/css/jquery.snappish.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-social.css">
+
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.1.1/jquery.qtip.min.js"></script>
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
@@ -107,6 +110,9 @@
                     <p id="lostpwd" style="margin-right:44%; padding-top: 2px">
                         <a id="lostpwd-link" href="password/reset">Hai perso la password?</a>
                     </p>
+                    <a class="btn btn-small btn-social btn-facebook" href="facebook/login">
+                        <i class="fa fa-facebook"></i> Accedi con Facebook
+                    </a>
                 </div>
                 {{ Form::close() }}
             </div>
@@ -179,6 +185,10 @@
         @if (Session::has('success'))
             showNotification('success', "{{ Session::get("success") }}");
         @endif
+        @if (Session::has('message'))
+            showNotification('info', "{{ Session::get("message") }}");
+        @endif
+
 
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

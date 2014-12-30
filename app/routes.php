@@ -380,6 +380,87 @@ Route::get('registration', function()
 });
 
 
+Route::get('/facebook/login', function()
+{
+    return Redirect::to(Facebook::getLoginUrl());
+});
+
+
+// Endpoint that is redirected to after an authentication attempt
+Route::get('/facebook/login_endpoint', function()
+{
+    try
+    {
+        $token = Facebook::getTokenFromRedirect();
+        if (!$token)
+            return Redirect::to('/')
+                ->with('error', 'Errore durante il login con Facebook.');
+    }
+    catch (FacebookQueryBuilderException $e)
+    {
+        return Redirect::to('/')
+            ->with('error', 'Errore durante il login con Facebook.');
+    }
+
+    if (!$token->isLongLived())
+    {
+        try
+        {
+            $token = $token->extend();
+        }
+        catch (FacebookQueryBuilderException $e)
+        {
+            return Redirect::to('/')
+                ->with('error', 'Errore durante il login con Facebook.');
+        }
+    }
+
+    Facebook::setAccessToken($token);
+
+    try
+    {
+        $facebook_user = Facebook::object('me')->fields('id','name', 'email')->get();
+    }
+    catch (FacebookQueryBuilderException $e)
+    {
+        return Redirect::to('/')
+            ->with('error', 'Errore durante il login con Facebook.');
+    }
+
+    // Create the user if not exists or update existing.
+    $user = User::createOrUpdateFacebookObject($facebook_user);
+
+    // Log the user into Laravel.
+    Facebook::auth()->login($user);
+
+    // If the username has already been set, we can proceed.
+    if (Auth::user()->username != null) 
+        return Redirect::route('home');
+    else
+    {
+        // Otherwise the user must complete some fields to finalize the
+        // registration process.
+        return Redirect::to('/facebook/registration');
+    }
+});
+
+
+Route::get('facebook/registration', function()
+{
+    // Retrieve data to fill <select> fields.
+    $titles = Title::orderBy('id', 'ASC')->lists('name', 'id');
+    $categories = Category::orderBy('id', 'ASC')->lists('name', 'id');
+    $sections = Section::orderBy('id', 'ASC')->lists('name', 'id');
+
+    return View::make('registration-facebook', array('titles' => $titles,
+                                            'categories' => $categories,
+                                            'sections' => $sections));
+
+});
+
+Route::post('facebook/registration', array('uses' => 'HomeController@newFacebookUser'));
+
+
 Route::post('registration', array('uses' => 'HomeController@newUser'));
 
 

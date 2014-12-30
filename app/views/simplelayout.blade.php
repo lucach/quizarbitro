@@ -10,6 +10,8 @@
         <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/qtip2/2.2.0/basic/jquery.qtip.css">
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/custom.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap-social.css') }}">
+
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <!-- TODO Is the following actually needed? -->
         <!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/basic/imagesloaded.pkg.min.js"></script>-->

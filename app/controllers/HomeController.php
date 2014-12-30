@@ -92,6 +92,40 @@ class HomeController extends BaseController
         return Redirect::to('/')->with('success', 'Registrazione effettuata con successo!');
     }
 
+    public function newFacebookUser()
+    {
+        $rules = array(
+            'username' => array('required', 'unique:qa_users')
+        );
+
+        $validation = Validator::make(Input::all() , $rules);
+        if ($validation->fails())
+        {
+            return Redirect::to('facebook/registration')->withInput()->withErrors($validation);
+        }
+
+        // If Facebook has been selected as auth method, the user is already 
+        // logged in.
+        $user = Auth::user();
+
+        // Set fields that could not be retrieved during Facebook login.
+        $user->username = Input::get('username');
+        $user->title_id = Input::get('titles');
+        $user->section_id = Input::get('sections');
+        $user->category_id = Input::get('categories');
+        $user->save();
+
+        // Send a welcome mail.
+        $id = $user->id;
+        Mail::queue('emails.welcome', array('username' => $user->username), function($message) use ($id)
+        {
+            $user = User::find($id);
+            $message->to($user->mail, $user->name)->subject('Benvenuto in QuizRef!');
+        });
+
+        return Redirect::to('/')->with('success', 'Registrazione effettuata con successo!');
+    }
+
     public function updateUser()
     {
         $user = Auth::user();
