@@ -155,18 +155,18 @@ Route::get('end', array('before' => 'auth', function()
 
     $percentage = ($good_answers * 100) / 30;
     if ($percentage == 100)
-        $outcome_str = "Eccellente! Per te il Regolamento non ha segreti! Complimenti!";
+        $outcome_str = "Eccellente! Per te il Regolamento non ha segreti! Complimenti, continua così!";
     else
         if ($percentage >= 80)
-            $outcome_str = "Qualche errorino qua e là , ma dopo una ripassata al Regolamento, raggiungerai il top!";
+            $outcome_str = "Buono! Nonostante qualche imprecisione la tua conoscenza del Regolamento è invidiabile! Studia e allenati sempre più e presto raggiungerai il top!";
         else
             if ($percentage >= 60)
-                $outcome_str = "Qualche errore di troppo. La tua conoscenza del Regolamento è un po' limitata. Ripassa bene!";
+                $outcome_str = "Sufficiente! La tua conoscenza del Regolamento è un po' limitata. Impegnati nello studio e presto raggiungerai un livello più alto!";
             else
                 if ($percentage >= 40)
-                    $outcome_str = "Maluccio! La tua conoscenza del Regolamento è essenziale e presenta qualche lacuna. Riprenditi il Regolamento e studia!";
+                    $outcome_str = "Insufficiente! La tua conoscenza del Regolamento è essenziale e presenta parecchie lacune. Uno studio più costante ti servirà!";
                 else
-                    $outcome_str = "Molto male! In queste condizioni non puoi arbitrare nemmeno i pulcini! Studia il Regolamento!";
+                    $outcome_str = "Gravemente insufficiente! L’unico metodo è riprendere il Regolamento e studiarlo da zero! Presto sarai sufficiente!";
 
     // Save the quiz only once
     // (i.e. do not save if the user has reloaded the page).
