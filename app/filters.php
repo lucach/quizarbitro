@@ -46,6 +46,9 @@ Route::filter('auth', function()
 			return Redirect::guest('/');
 		}
 	}
+	// Force Facebook users to fill required data.
+	if (Auth::user()->username == '')
+		return Redirect::to('facebook/registration');
 });
 
 
