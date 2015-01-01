@@ -53,10 +53,11 @@ Route::post('answers', array('before' => 'auth', function()
 
 /* Stores in PHP session the questions for the current quiz with
 requested difficulty (default easy). */
-Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficulty = 0) {
+Route::get('newquiz/{difficulty?}', array('before' => 'auth', 
+    function($difficulty = 0) {
 
-    // The following is, as agreed, the way we choose which questions
-    // should appear in a quiz.
+    // The following is, as agreed, the way we choose which questions should
+    // appear in a quiz.
     $laws = array (1, 1, 2, 3, 3, 3, 4, 5, 5, 6, 6, 7, 8, 11, 11,
         12, 12, 12, 13, 14, 15, array(9, 10, 16, 17), 14, 18, 13,
         12, 4, 19, 19, array(9, 10, 16, 17));
@@ -64,14 +65,16 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
     $hard_difficulties = array (0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0,
         1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0);
 
-    // For certain laws, we choose to display hard questions only in 50% of cases.
+    // For certain laws, we choose to display hard questions only in 50% of 
+    // cases.
     if (rand()%2)
         $hard_difficulties[2] = $hard_difficulties[11] = 1;
     else
-        $hard_difficulties[12] = $hard_difficulties[20] = $hard_difficulties[21] = 1;
+        $hard_difficulties[12] = $hard_difficulties[20] = 
+            $hard_difficulties[21] = 1;
  
-    // Random sort the array to mix the questions. Be careful: they have to be mixed
-    // exactly the same to not lost their parallelism.
+    // Random sort the array to mix the questions. Be careful: they have to be 
+    // mixed exactly the same to not lost their parallelism.
 
     $tmp = array();
     for ($i=0; $i<30; $i++) {
@@ -87,20 +90,27 @@ Route::get('newquiz/{difficulty?}', array('before' => 'auth', function($difficul
     Session::forget('questions');
     $questions = array();
     $answers = array_fill(0, 30, -1);
-    $id_to_be_avoided = array(-1); // dummy ID to make it working with the first query
+    // Set a dummy ID to make the following working with the first query.
+    $id_to_be_avoided = array(-1);
     for ($i = 0; $i < 30; $i++)
     {
         $question = Question::orderBy(DB::raw('RAND()'))
-                        ->whereIn('law', (is_int($laws[$i])) ? array($laws[$i]) : $laws[$i]) // convert to one-element array iff it's not already in that way
+
+                        ->whereIn('law', 
+                            // convert to one-element array iff it's not already
+                            // in that way
+                            (is_int($laws[$i])) ? array($laws[$i]) : $laws[$i]) 
+
                         ->whereNotIn('_id', $id_to_be_avoided)
-                        ->where('isHard', ($difficulty == 0) ? 0 : $hard_difficulties[$i])
+                        ->where('isHard', 
+                            ($difficulty == 0) ? 0 : $hard_difficulties[$i])
                         ->take(1)
                         ->get()
                         ->first();
         array_push($questions, $question);
         array_push($id_to_be_avoided, intval($question->_id));
 
-        // If there are some question releated, push them in the array too
+        // If there are some question releated, push them in the array too.
         if (isset($related_id[$question->first()->_id]))
             foreach ($related_id[$question->first()->_id] as $id)
                 array_push($id_to_be_avoided, $id);
@@ -162,18 +172,27 @@ Route::get('end', array('before' => 'auth', function()
 
     $percentage = ($good_answers * 100) / 30;
     if ($percentage == 100)
-        $outcome_str = "Eccellente! Per te il Regolamento non ha segreti! Complimenti, continua così!";
+        $outcome_str = "Eccellente! Per te il Regolamento non ha segreti! 
+            Complimenti, continua così!";
     else
         if ($percentage >= 80)
-            $outcome_str = "Buono! Nonostante qualche imprecisione la tua conoscenza del Regolamento è invidiabile! Studia e allenati sempre più e presto raggiungerai il top!";
+            $outcome_str = "Buono! Nonostante qualche imprecisione la tua
+                conoscenza del Regolamento è invidiabile! Studia e allenati
+                sempre più e presto raggiungerai il top!";
         else
             if ($percentage >= 60)
-                $outcome_str = "Sufficiente! La tua conoscenza del Regolamento è un po' limitata. Impegnati nello studio e presto raggiungerai un livello più alto!";
+                $outcome_str = "Sufficiente! La tua conoscenza del Regolamento è
+                    un po' limitata. Impegnati nello studio e presto
+                    raggiungerai un livello più alto!";
             else
                 if ($percentage >= 40)
-                    $outcome_str = "Insufficiente! La tua conoscenza del Regolamento è essenziale e presenta parecchie lacune. Uno studio più costante ti servirà!";
+                    $outcome_str = "Insufficiente! La tua conoscenza del
+                        Regolamento è essenziale e presenta parecchie lacune.
+                        Uno studio più costante ti servirà!";
                 else
-                    $outcome_str = "Gravemente insufficiente! L’unico metodo è riprendere il Regolamento e studiarlo da zero! Presto sarai sufficiente!";
+                    $outcome_str = "Gravemente insufficiente! L’unico metodo è
+                        riprendere il Regolamento e studiarlo da zero! Presto
+                        sarai sufficiente!";
 
     // Save the quiz only once
     // (i.e. do not save if the user has reloaded the page).
@@ -189,8 +208,10 @@ Route::get('end', array('before' => 'auth', function()
 
         // Update user table: increment the number of test done and update his/
         // her average score.
-        $total_score = (Auth::user()->average_score * Auth::user()->tests_done) + (int)$points;
-        Auth::user()->average_score = $total_score / (Auth::user()->tests_done + 1);
+        $total_score = (Auth::user()->average_score * Auth::user()->tests_done)
+            + (int)$points;
+        Auth::user()->average_score = 
+            $total_score / (Auth::user()->tests_done + 1);
         Auth::user()->increment('tests_done');
         Auth::user()->save();
 
@@ -225,11 +246,16 @@ Route::get('profile', array('before' => 'auth', function()
     // The first item is the current option for auth user.
 
     $titles = Title::where('id', Auth::user()->title->id)->lists('name', 'id')
-        + Title::where('id', '!=', Auth::user()->title->id)->orderBy('id', 'ASC')->lists('name', 'id');
-    $categories = Category::where('id', Auth::user()->category->id)->lists('name', 'id')
-        + Category::where('id', '!=', Auth::user()->category->id)->orderBy('id', 'ASC')->lists('name', 'id');
-    $sections = Section::where('id', Auth::user()->section->id)->lists('name', 'id')
-        + Section::where('id', '!=', Auth::user()->section->id)->orderBy('id', 'ASC')->lists('name', 'id');
+        + Title::where('id', '!=', Auth::user()->title->id)
+            ->orderBy('id', 'ASC')->lists('name', 'id');
+    $categories = Category::where('id', Auth::user()->category->id)
+                    ->lists('name', 'id')
+        + Category::where('id', '!=', Auth::user()->category->id)
+        ->orderBy('id', 'ASC')->lists('name', 'id');
+    $sections = Section::where('id', Auth::user()->section->id)
+                ->lists('name', 'id')
+        + Section::where('id', '!=', Auth::user()->section->id)
+            ->orderBy('id', 'ASC')->lists('name', 'id');
 
     $profile_image_path;
     if (File::exists(public_path().'/profile-images/'.md5(Auth::user()->mail)))
@@ -261,7 +287,8 @@ Route::get('history', array('before' => 'auth', function()
 
 Route::post('result', array('before' => 'auth', function()
 {
-    $all_id_questions = json_decode(str_replace('\"', '"', Input::get('questions')));
+    $all_id_questions = json_decode(str_replace('\"', '"', 
+        Input::get('questions')));
     $all_answers = json_decode(str_replace('\"', '"', Input::get('answers')));
     $all_results = array();
     $all_questions = array();
@@ -349,7 +376,9 @@ Route::get('ranking', array('before' => 'auth', function()
 
 Route::get('password/reset', array( function()
 {
-    if (Auth::check()) // do not ask the mail if the user is logged in (i.e. he wants to change his password)
+    // Do not ask a mail if the user is logged in
+    // (i.e. he wants to change his password).
+    if (Auth::check())
         App::make('PasswordController')->request();
     else
         return App::make('PasswordController')->remind();
@@ -426,7 +455,8 @@ Route::get('/facebook/login_endpoint', function()
 
     try
     {
-        $facebook_user = Facebook::object('me')->fields('id','name', 'email')->get();
+        $facebook_user = Facebook::object('me')->fields('id','name', 'email')
+            ->get();
     }
     catch (FacebookQueryBuilderException $e)
     {
@@ -465,10 +495,12 @@ Route::get('facebook/registration', function()
 
 });
 
-Route::post('facebook/registration', array('uses' => 'HomeController@newFacebookUser'));
+Route::post('facebook/registration', 
+    array('uses' => 'HomeController@newFacebookUser'));
 
 
 Route::post('registration', array('uses' => 'HomeController@newUser'));
 
 
-Route::post('profile', array('before' => 'auth', 'uses' => 'HomeController@updateUser'));
+Route::post('profile', array('before' => 'auth', 
+    'uses' => 'HomeController@updateUser'));
