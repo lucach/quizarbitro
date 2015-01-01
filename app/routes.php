@@ -3,7 +3,14 @@
 Route::get('/', function()
 {
     if (Auth::check())
-        return Redirect::route('home');
+    {
+        // Check if this is hit by a Facebook user that wants
+        // to quit registration process.
+        if (Auth::user()->username == '')
+            return View::make('slideshow');
+        else
+            return Redirect::route('home');
+    }
     else
         return View::make('slideshow');
 });
