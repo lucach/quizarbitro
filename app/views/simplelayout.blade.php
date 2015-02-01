@@ -28,7 +28,7 @@
         <div class="navbar navbar-default navbar-static-top" role="navigation">
           <div class="container">
             <div class="navbar-header">
-              <a class="navbar-brand" href="#"><img style="width:100px" src="{{ asset('assets/images/logo.svg') }}"></img></a>
+              <a class="navbar-brand" href="#"><img style="width:100px" src="{{ asset('assets/images/logo.png') }}"></img></a>
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
